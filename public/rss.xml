@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>oriz</title>
+    <link>https://oriz.in</link>
+    <description>A family of small, free, static sites by Chirag Singhal.</description>
+    <language>en</language>
+    <atom:link href="https://oriz.in/rss.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 20 Jun 2026 00:00:00 GMT</lastBuildDate>
+
+    <!-- Placeholder feed. Real entries will be sourced from the lifestream
+         JSONL canonical store; see knowledge/decisions/architecture/lifestream-jsonl-canonical.md. -->
+    <item>
+      <title>oriz launches: a family of small, free, static sites</title>
+      <link>https://oriz.in</link>
+      <guid isPermaLink="true">https://oriz.in</guid>
+      <description>The oriz family hub goes live. 11 sub-sites covering reading, writing, tools, finance, and personal.</description>
+      <pubDate>Sat, 20 Jun 2026 00:00:00 GMT</pubDate>
+    </item>
+  </channel>
+</rss>

@@ -64,29 +64,11 @@ const indexEntries = ROWS.map((row, i) => {
   }
 })
 
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Organization',
-  name: 'oriz',
-  url: 'https://oriz.in',
-  founder: { '@type': 'Person', name: 'Chirag Singhal', url: 'https://oriz.in/about/' },
-  description:
-    'A free family of static sites: book summaries, NCERT directory, India card intelligence, finance calculators, dev tools, blog, and a privacy-first journal.',
-  sameAs: [
-    'https://github.com/chirag127',
-    'https://x.com/chirag127',
-    'https://linkedin.com/in/chirag127',
-  ],
-  hasPart: FAMILY_SITES.map((s) => ({
-    '@type': 'WebSite',
-    name: s.name,
-    url: s.url,
-    description: s.tagline,
-  })),
-}
+// Organization + WebSite + Person triple is emitted by BaseLayout's
+// <JsonLd> default; the index page contributes nothing extra.
 ---
 
-<BaseLayout jsonLd={jsonLd}>
+<BaseLayout>
   {/*
     Band 2 — Masthead lockup. The wordmark IS the hero. No illustration,
     no gradient, no 3D blob. The only first-paint vermilion is the strike

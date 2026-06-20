@@ -1,0 +1,23 @@
+User-agent: *
+Allow: /
+
+# Canonical sitemap lives at the apex; sub-sites and mirrors all point here
+# per knowledge/decisions/architecture/seo-three-pillars.md.
+Sitemap: https://oriz.in/sitemap-index.xml
+
+# Per-site sitemap (Astro emits this).
+Sitemap: https://oriz.in/sitemap-0.xml
+
+# Be polite to AI crawlers — block training corpora but allow search indexers.
+# Adjust per knowledge/decisions/architecture/seo-three-pillars.md if it changes.
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /

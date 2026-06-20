@@ -1,0 +1,44 @@
+---
+/*
+ * /links — Raindrop.io linkroll placeholder.
+ *
+ * Locked spec: knowledge/decisions/architecture/linkroll-raindrop-to-links-page.md.
+ *
+ * The real linkroll is fetched at build time from the Raindrop.io public
+ * collection via the RAINDROP_TOKEN env var. Today this is a placeholder —
+ * the build hook lands when the token + collection ID are wired in.
+ */
+import BaseLayout from '~/layouts/BaseLayout.astro'
+---
+
+<BaseLayout
+  title="Links — oriz"
+  description="A curated linkroll from Chirag Singhal's Raindrop.io public collection."
+  wordmarkSubtitle="links"
+>
+  <header class="spine page-head">
+    <p class="eyebrow"><a href="/">oriz</a> / links</p>
+    <h1>Links</h1>
+    <p class="lede">
+      Things I&apos;ve saved that are worth your time. Sourced from a public
+      Raindrop.io collection at build time.
+    </p>
+  </header>
+
+  <article class="spine prose">
+    <p>
+      <em>Linkroll placeholder.</em> The build-time fetch of the public
+      Raindrop.io collection isn&apos;t wired yet — see{' '}
+      <a href="https://github.com/chirag127/oriz/blob/main/knowledge/decisions/architecture/linkroll-raindrop-to-links-page.md">
+        knowledge/decisions/architecture/linkroll-raindrop-to-links-page.md
+      </a>{' '}
+      for the contract.
+    </p>
+    <p>
+      In the meantime, the public collection lives at{' '}
+      <a href="https://raindrop.io/chirag127" target="_blank" rel="noopener noreferrer">
+        raindrop.io/chirag127
+      </a>.
+    </p>
+  </article>
+</BaseLayout>

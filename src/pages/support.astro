@@ -1,0 +1,189 @@
+---
+/*
+ * /support — donations + sponsorship grid.
+ *
+ * 12 payment rails per the build brief. Razorpay is highlighted for India
+ * (geo-routed via CF-IPCountry); the rest are equal citizens.
+ *
+ * No backend — every rail is an outbound link. The page is a static
+ * directory; if a rail is unavailable in your jurisdiction, pick another.
+ *
+ * Family-anchor pattern: sister sites either link here or render the same
+ * grid component. The grid lives inline today; it should land in
+ * @chirag127/oriz-kit as <SupportRails /> on the kit's first publish.
+ */
+import BaseLayout from '~/layouts/BaseLayout.astro'
+
+interface Rail {
+  id: string
+  name: string
+  href: string
+  /** One-line context shown under the rail name. */
+  blurb: string
+  /** Region preference — used by the geo-routed sort. */
+  region?: 'IN' | 'US' | 'EU' | 'WW'
+  /** Single-character glyph; the family ships no logos. */
+  glyph: string
+  /** Optional crypto address shown verbatim. */
+  address?: string
+}
+
+const RAILS: Rail[] = [
+  { id: 'razorpay', name: 'Razorpay', href: 'https://pages.razorpay.com/oriz', blurb: 'India — UPI, cards, netbanking', region: 'IN', glyph: 'R' },
+  { id: 'upi', name: 'UPI QR', href: '/support/upi-qr.png', blurb: 'India — scan with any UPI app', region: 'IN', glyph: 'U' },
+  { id: 'lemon', name: 'Lemon Squeezy', href: 'https://oriz.lemonsqueezy.com', blurb: 'Worldwide — cards', region: 'WW', glyph: 'L' },
+  { id: 'polar', name: 'Polar.sh', href: 'https://polar.sh/chirag127', blurb: 'Open-source funding', region: 'WW', glyph: 'P' },
+  { id: 'liberapay', name: 'Liberapay', href: 'https://liberapay.com/chirag127', blurb: 'Recurring, no fee', region: 'EU', glyph: 'B' },
+  { id: 'opencollective', name: 'Open Collective', href: 'https://opencollective.com/oriz', blurb: 'Transparent ledger', region: 'WW', glyph: 'O' },
+  { id: 'github', name: 'GitHub Sponsors', href: 'https://github.com/sponsors/chirag127', blurb: 'GitHub-native sponsorship', region: 'WW', glyph: 'G' },
+  { id: 'kofi', name: 'Ko-fi', href: 'https://ko-fi.com/chirag127', blurb: 'One-off coffees', region: 'WW', glyph: 'K' },
+  { id: 'bmc', name: 'Buy Me a Coffee', href: 'https://buymeacoffee.com/chirag127', blurb: 'Membership tiers', region: 'WW', glyph: 'C' },
+  { id: 'paypal', name: 'PayPal.me', href: 'https://paypal.me/chirag127', blurb: 'PayPal balance / cards', region: 'US', glyph: 'Y' },
+  { id: 'btc', name: 'Bitcoin', href: '#btc', blurb: 'On-chain BTC (placeholder address)', region: 'WW', glyph: '₿', address: 'bc1qplaceholderplaceholderplaceholderplacehol' },
+  { id: 'eth', name: 'Ethereum / USDC', href: '#eth', blurb: 'EVM mainnet (placeholder address)', region: 'WW', glyph: 'Ξ', address: '0x0000000000000000000000000000000000000000' },
+]
+
+// Geo-route: surface India rails first when CF-IPCountry says IN.
+// Today we render the natural order; the CF Worker geo helper isn't
+// deployed yet. TODO: re-sort by region when the Worker injects
+// `<html data-cf-country="IN">`.
+const sorted = RAILS
+
+const supportJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: 'Support oriz',
+  url: 'https://oriz.in/support/',
+  description: 'Twelve ways to support the oriz family — donations, sponsorships, and crypto.',
+}
+---
+
+<BaseLayout
+  title="Support — oriz"
+  description="Twelve ways to support oriz: Razorpay, Lemon Squeezy, Polar.sh, Liberapay, Open Collective, GitHub Sponsors, Ko-fi, Buy Me a Coffee, PayPal, UPI QR, Bitcoin, Ethereum."
+  jsonLd={supportJsonLd}
+  wordmarkSubtitle="support"
+>
+  <header class="spine page-head">
+    <p class="eyebrow"><a href="/">oriz</a> / support</p>
+    <h1>Support oriz</h1>
+    <p class="lede">
+      Twelve rails. Pick whichever one is least friction for you. India visitors
+      get UPI / Razorpay first; everything else is equal-citizen.
+    </p>
+  </header>
+
+  <section class="spine rails-section">
+    <ul class="rails">
+      {
+        sorted.map((r) => (
+          <li class="rail">
+            <a class="rail-link" href={r.href} target={r.href.startsWith('/') || r.href.startsWith('#') ? undefined : '_blank'} rel={r.href.startsWith('http') ? 'noopener noreferrer' : undefined}>
+              <span class="glyph mono" aria-hidden="true">{r.glyph}</span>
+              <span class="meat">
+                <span class="name display">{r.name}</span>
+                <span class="blurb">{r.blurb}</span>
+                {r.address && <code class="address mono">{r.address}</code>}
+              </span>
+              {r.region && <span class="region mono">{r.region}</span>}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <p class="footnote">
+      All rails go to Chirag Singhal personally. There is no foundation, no
+      pass-through entity. Donations are not tax-deductible (this is not a
+      registered non-profit). If your employer has a matching programme, the
+      operator address is in the <a href="/about/">about</a> page.
+    </p>
+  </section>
+</BaseLayout>
+
+<style>
+  .rails-section {
+    padding-block: 2.5rem 4rem;
+  }
+  .rails {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-top: 1px solid var(--rule);
+  }
+  .rail {
+    border-bottom: 1px solid var(--rule);
+  }
+  .rail-link {
+    display: grid;
+    grid-template-columns: 40px 1fr 60px;
+    gap: 1rem;
+    align-items: center;
+    padding-block: 1rem;
+    text-decoration: none;
+    color: var(--ink);
+    min-height: 64px;
+  }
+  .rail-link:hover {
+    box-shadow: inset 0 -1px 0 var(--mustard);
+  }
+  .rail-link:focus-visible {
+    outline: none;
+    background: color-mix(in oklab, var(--highlighter) 30%, transparent);
+  }
+  .glyph {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--rule);
+    color: var(--ink-mute);
+    font-size: 14px;
+  }
+  .meat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  .name {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.125rem;
+    color: var(--ink);
+  }
+  .blurb {
+    font-size: 0.875rem;
+    color: var(--ink-mute);
+  }
+  .address {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-mute);
+    padding: 0.125rem 0.25rem;
+    background: color-mix(in oklab, var(--ink-mute) 12%, transparent);
+    margin-top: 0.25rem;
+    word-break: break-all;
+  }
+  .region {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-align: right;
+    color: var(--ink-mute);
+    letter-spacing: 0.16em;
+  }
+  .rail-link:hover .region {
+    color: var(--ledger);
+  }
+
+  .footnote {
+    margin-top: 2rem;
+    font-size: 0.875rem;
+    color: var(--ink-mute);
+    line-height: 1.6;
+  }
+  .footnote a {
+    color: var(--mustard);
+    text-decoration: underline;
+  }
+</style>

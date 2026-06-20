@@ -1,0 +1,20 @@
+{
+  "version": "https://jsonfeed.org/version/1.1",
+  "title": "oriz",
+  "home_page_url": "https://oriz.in",
+  "feed_url": "https://oriz.in/feed.json",
+  "description": "A family of small, free, static sites by Chirag Singhal.",
+  "language": "en",
+  "authors": [
+    { "name": "Chirag Singhal", "url": "https://me.oriz.in" }
+  ],
+  "items": [
+    {
+      "id": "https://oriz.in",
+      "url": "https://oriz.in",
+      "title": "oriz launches: a family of small, free, static sites",
+      "content_text": "The oriz family hub goes live. 11 sub-sites covering reading, writing, tools, finance, and personal.",
+      "date_published": "2026-06-20T00:00:00Z"
+    }
+  ]
+}

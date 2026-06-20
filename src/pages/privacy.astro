@@ -1,0 +1,220 @@
+---
+/*
+ * /privacy — family-wide canonical privacy page.
+ *
+ * Locked spec: knowledge/decisions/branding/family-wide-privacy-page.md.
+ * Every site / extension / worker / CLI in the family points at this URL
+ * as the legal source of truth. Per-surface addenda live at
+ * /privacy/<surface> (extension, worker, etc.) — those exist only when
+ * the surface introduces new disclosures.
+ *
+ * Plain-text policy. No legalese theatre. References:
+ *   - 5-tier analytics: knowledge/decisions/architecture/analytics-five-tier-stack.md
+ *   - Klaro consent map: knowledge/decisions/security/consent-management-multi-category.md
+ *   - Operator + jurisdiction: src/lib/family.ts (FAMILY constant)
+ */
+import BaseLayout from '~/layouts/BaseLayout.astro'
+import { FAMILY } from '~/lib/family'
+
+const lastUpdated = FAMILY.legalUpdated
+
+const privacyJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: 'Privacy Policy — oriz',
+  url: 'https://oriz.in/privacy/',
+  description:
+    'Family-wide privacy policy for the oriz family of sites, extensions, workers, and CLIs.',
+  dateModified: lastUpdated,
+}
+---
+
+<BaseLayout
+  title="Privacy — oriz"
+  description="Family-wide privacy policy for the oriz family of sites, extensions, workers, and CLIs. What we collect, where it's stored, how long we keep it, and how to reach us."
+  canonical="https://oriz.in/privacy/"
+  jsonLd={privacyJsonLd}
+  wordmarkSubtitle="privacy"
+>
+  <header class="spine page-head">
+    <p class="eyebrow"><a href="/">oriz</a> / privacy</p>
+    <h1>Privacy</h1>
+    <p class="lede">
+      The single, canonical privacy policy for everything in the oriz family —
+      sites, browser / VS Code extensions, Cloudflare Workers, and CLIs.
+      Per-surface addenda (when needed) live at <code>/privacy/&lt;surface&gt;</code>.
+    </p>
+    <p class="meta">Last updated · {lastUpdated} · {FAMILY.operator.name}</p>
+  </header>
+
+  <article class="spine prose">
+    <p class="lede">
+      This is the family-wide privacy policy for everything published under the{' '}
+      <strong>oriz</strong> brand. If a specific surface (an extension, a Worker,
+      a CLI) introduces a new disclosure, that lives in an addendum at{' '}
+      <code>/privacy/&lt;surface&gt;</code> and inherits this page by reference.
+    </p>
+
+    <h2>Operator</h2>
+    <p>
+      <strong>{FAMILY.operator.name}</strong>, sole operator. Contact:{' '}
+      <a href={`mailto:${FAMILY.operator.email}`}>{FAMILY.operator.email}</a>.
+      Address: {FAMILY.operator.address}. Jurisdiction:{' '}
+      {FAMILY.jurisdiction.city}, {FAMILY.jurisdiction.state},{' '}
+      {FAMILY.jurisdiction.country}. There is no company, foundation, or
+      pass-through entity — every surface is run personally.
+    </p>
+
+    <h2>What we collect</h2>
+    <p>
+      We collect the minimum needed to make a surface work, plus optional
+      analytics that you can refuse via the cookie banner (shown only in
+      regions that legally require it).
+    </p>
+    <ul>
+      <li>
+        <strong>Necessary</strong> — Firebase Auth session if you sign in,
+        CSRF tokens, and a per-incident dismissal flag for the status banner.
+        These never leave your device except as part of the requested
+        operation (e.g. signing in).
+      </li>
+      <li>
+        <strong>Edge / cookie-less analytics</strong> — Cloudflare Web
+        Analytics (no cookies, no fingerprint, page-load counts only). Runs
+        without consent because it captures no personal data.
+      </li>
+      <li>
+        <strong>Optional analytics (consent required in EU/UK; opt-out in US/CA)</strong> —
+        Google Analytics 4 (acquisition + funnels), PostHog (product
+        analytics + session replay), Microsoft Clarity (heatmaps + a second
+        session replay for redundancy). Each layer can be disabled
+        independently via the per-site env-var kill-switch documented in our
+        <a href="https://github.com/chirag127/oriz/blob/main/knowledge/decisions/architecture/analytics-five-tier-stack.md">
+          {' '}5-tier analytics stack
+        </a>.
+      </li>
+      <li>
+        <strong>Marketing</strong> — UTM persistence cookie (only set after
+        consent in EU/UK or after CCPA opt-out window in US/CA), Razorpay
+        cart UUID on the support page during the few seconds you interact
+        with their iframe.
+      </li>
+      <li>
+        <strong>Functional</strong> — theme / language / font-size
+        preferences (necessary for the requested feature; never shared).
+      </li>
+      <li>
+        <strong>Social embeds</strong> — Giscus comments on the blog,
+        Bluesky / AT Protocol embeds on the lifestream. Both lazy-load only
+        after you click their placeholder.
+      </li>
+    </ul>
+    <p>
+      We do <strong>not</strong> sell, rent, or share your data with any third party
+      beyond the named processors above, each of which is bound by their own
+      published terms.
+    </p>
+
+    <h2>Where it&apos;s stored</h2>
+    <ul>
+      <li>
+        <strong>Cloudflare</strong> (US + global edge) — static asset hosting,
+        Web Analytics aggregates, security (Turnstile, WAF).
+      </li>
+      <li>
+        <strong>Firebase</strong> (US, asia-south1) — auth, Firestore for the
+        few surfaces that need it (cards, journal-server-side metadata),
+        FCM tokens for opt-in push.
+      </li>
+      <li>
+        <strong>Google Analytics 4</strong> (US/EU) — anonymised funnel data.
+      </li>
+      <li>
+        <strong>PostHog Cloud EU</strong> — product analytics + session replays.
+      </li>
+      <li>
+        <strong>Microsoft Clarity</strong> (US/EU) — heatmaps + redundant
+        session replay.
+      </li>
+      <li>
+        <strong>Sentry</strong> (US/EU) — error reports, no PII captured by
+        default (<code>sendDefaultPii: false</code>).
+      </li>
+    </ul>
+    <p>
+      A site-by-site processor list lives in our public knowledge bundle at{' '}
+      <a href="https://github.com/chirag127/oriz/tree/main/knowledge/services">
+        knowledge/services/
+      </a>.
+    </p>
+
+    <h2>How long we keep it</h2>
+    <ul>
+      <li>Authenticated session cookies — until you sign out, max 30 days idle.</li>
+      <li>Cloudflare Web Analytics — 6 months (Cloudflare default).</li>
+      <li>GA4 — 14 months (we set the minimum allowed).</li>
+      <li>PostHog — 1 year (free-tier default).</li>
+      <li>Clarity — 30 days for replays, 1 year for aggregates.</li>
+      <li>Sentry — 30 days.</li>
+      <li>Server-side data (Firestore docs you create) — until you delete
+        the surface or your account.</li>
+    </ul>
+
+    <h2>Cookies + consent</h2>
+    <p>
+      We use <a href="https://klaro.org">Klaro</a> as the consent manager
+      with five categories (necessary / analytics / marketing / functional /
+      social). EU/UK visitors see the banner default-DENIED; US/CA visitors
+      see it default-ACCEPTED with <code>Sec-GPC: 1</code> auto-honoured;
+      visitors elsewhere don&apos;t see a banner. The full category map is at{' '}
+      <a href="https://github.com/chirag127/oriz/blob/main/knowledge/decisions/security/consent-management-multi-category.md">
+        knowledge/decisions/security/consent-management-multi-category.md
+      </a>.
+    </p>
+
+    <h2>Your rights</h2>
+    <p>
+      Under GDPR / UK GDPR / India&apos;s DPDP Act / CCPA: you can ask for a
+      copy of your data, ask us to delete it, ask us to correct it, or
+      withdraw consent at any time. Email{' '}
+      <a href={`mailto:${FAMILY.operator.email}`}>{FAMILY.operator.email}</a>{' '}
+      and we&apos;ll respond within 30 days (most requests get same-day
+      replies because the operator is one person and the surfaces are small).
+    </p>
+
+    <h2>Children</h2>
+    <p>
+      No surface in the family is targeted at children under 13 (US COPPA)
+      or 16 (EU). We do not knowingly collect data from minors. If you
+      believe a minor has provided personal data, email us and we will
+      delete it.
+    </p>
+
+    <h2>Changes</h2>
+    <p>
+      We re-read Chrome Web Store / Firefox AMO / Edge Add-ons / VS Code
+      Marketplace policies, GDPR / DPDP / CCPA, and the analytics processor
+      terms once a year and update this page. Material changes are flagged
+      at the top of the page with a one-week banner.
+    </p>
+
+    <h2>Contact</h2>
+    <p>
+      Email: <a href={`mailto:${FAMILY.operator.email}`}>{FAMILY.operator.email}</a>.
+      Postal: {FAMILY.operator.address}.<br />
+      For India IT Rules 2021 grievance reports, see the formal{' '}
+      <a href="/legal/grievance/">grievance officer</a> page.
+    </p>
+
+    <hr />
+
+    <p>
+      The current per-site addenda are listed at{' '}
+      <a href="/sites/">/sites</a>. The canonical machine-readable list of
+      processors lives in our{' '}
+      <a href="https://github.com/chirag127/oriz/tree/main/knowledge">
+        knowledge/ bundle
+      </a>.
+    </p>
+  </article>
+</BaseLayout>
