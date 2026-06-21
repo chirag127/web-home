@@ -15,10 +15,6 @@
  *
  * Banner is dismissible — sets a localStorage flag keyed on the incident id.
  * Re-appears for the next distinct incident.
- *
- * Family-anchor: local copy of @chirag127/oriz-kit <StatusBanner />. Swap
- * to `import { StatusBanner } from '@chirag127/oriz-kit'` when the kit
- * publishes.
  */
 import { useEffect, useState } from 'react'
 

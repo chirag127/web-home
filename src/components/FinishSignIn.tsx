@@ -1,9 +1,3 @@
-/*
- * FinishSignIn — local copy that emits the canonical
- * `data-oriz-finish-sign-in-*` hooks. See AccountPanel.tsx header comment
- * for why this is a local copy rather than an import from
- * @chirag127/auth-ui.
- */
 import { isSignInWithEmailLink, signInWithEmailLink } from 'firebase/auth'
 import { useCallback, useEffect, useState } from 'react'
 import { auth } from '~/lib/firebase'

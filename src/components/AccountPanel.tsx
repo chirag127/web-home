@@ -1,20 +1,3 @@
-/*
- * AccountPanel — local copy of @chirag127/auth-ui's AccountPanel, with
- * markup that emits the canonical `data-oriz-account-*` selector hooks
- * documented in packages/auth-ui/src/AccountPanel.tsx.
- *
- * Why local: the published @chirag127/oriz-ui v2.0.0 shim re-exports from
- * file:../auth-ui paths that don't resolve when consumed via GitHub
- * tarball. Until the auth-ui package is published to npm, every site
- * keeps its own copy that emits the same selector hooks. Sister sites
- * copy this file verbatim — the hook names are the contract, not this
- * file. CSS in src/styles/oriz-ui-overrides.css applies the site palette
- * to the hooks.
- *
- * When auth-ui ships to npm, replace this file with:
- *   import { AccountPanel } from '@chirag127/auth-ui'
- *   export default function Wrapper(){ return <AccountPanel auth={auth} /> }
- */
 import {
   GithubAuthProvider,
   GoogleAuthProvider,

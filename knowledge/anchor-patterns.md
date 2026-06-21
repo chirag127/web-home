@@ -216,11 +216,9 @@ Sister sites copy `oriz-ui-overrides.css` verbatim and substitute tokens.
 
 ## Family list — `src/lib/family.ts`
 
-A vendored copy of `@chirag127/oriz-family` `FAMILY_SITES`. Every site
-keeps its own copy until the package ships to npm; the file header
-comment carries the sync provenance (`Last synced: <date> from
-chirag127/oriz-family@<sha>`). When the package ships, replace the body
-with `export * from '@chirag127/oriz-family'`.
+An inline per-app listing of the family sites. Every site keeps its
+own copy; the file ships a single-line header comment and the
+`FAMILY_SITES` constant.
 
 ---
 

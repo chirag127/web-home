@@ -1,16 +1,15 @@
 /*
  * oriz-ui overrides — site-local styling for the AccountPanel / FinishSignIn /
- * ContactForm islands. The upstream packages (@chirag127/auth-ui,
- * @chirag127/contact-form) ship UNSTYLED markup with `[data-oriz-*]`
- * attribute hooks, exactly so each site can paint them in its own palette.
+ * ContactForm islands. Those components ship UNSTYLED markup with
+ * `[data-oriz-*]` attribute hooks, exactly so each site can paint them in
+ * its own palette.
  *
  * This file is the canonical example for sister sites — every site copies
  * this skeleton and substitutes its own tokens.
  *
- * Selector hooks documented at:
- *   packages/auth-ui/src/AccountPanel.tsx (lines 11–29)
- *   packages/auth-ui/src/FinishSignIn.tsx (lines 9–14)
- *   packages/contact-form/src/ContactForm.tsx (lines 12–23)
+ * Selector hooks: search src/components for `data-oriz-account-*`,
+ * `data-oriz-finish-sign-in-*`, and `data-oriz-contact-*` to find every
+ * styleable element.
  */
 
 /* ── AccountPanel ───────────────────────────────────────────────────────── */

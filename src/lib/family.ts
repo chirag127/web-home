@@ -1,18 +1,4 @@
-/*
- * Local vendored copy of @chirag127/oriz-family FAMILY_SITES.
- *
- * Why local: the @chirag127/oriz-family package is workspace-only (it is a
- * file:../oriz-family dependency of the @chirag127/oriz-ui v2.0.0 shim) and
- * can't be resolved when oriz-ui is consumed via a GitHub tarball. Until
- * oriz-family ships to npm, every site keeps its own copy of the canonical
- * list. The contract is: this list is byte-identical to
- * `packages/oriz-family/src/index.ts` FAMILY_SITES at the time of the last
- * sync. When that package ships to npm, replace with:
- *   export { FAMILY_SITES, FAMILY, type FamilySite } from '@chirag127/oriz-family'
- *
- * Last synced: 2026-06-19 from chirag127/oriz-family@e90446e (commit on main
- * adding `me` to make 11 entries).
- */
+// Family sites listing — inline per-app.
 
 export const FAMILY = {
   brand: 'oriz',

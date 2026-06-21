@@ -10,11 +10,6 @@
  *   1. window.getSelection().toString()       (live selection wins)
  *   2. last-clicked card title                (data-oriz-card-title attr)
  *   3. document.title minus the family suffix (e.g. " — oriz")
- *
- * Family-anchor: this is the local copy of the @chirag127/oriz-kit
- * <MultiSearch /> component until the kit publishes to npm. See
- * knowledge/glossary/o-r/oriz-kit.md for the kit contract. When the kit
- * lands, swap this for `import { MultiSearch } from '@chirag127/oriz-kit'`.
  */
 import { useCallback, useEffect, useRef, useState } from 'react'
 
