@@ -1,0 +1,115 @@
+---
+/*
+ * PackageCard.astro — card used on the /packages section.
+ *
+ * Each card: brand + 1-liner + 'Full docs → packages.oriz.in/<name>' link
+ * to the canonical per-package docs site. The npm/github links sit under
+ * the docs link so this is a primarily-docs-led card.
+ */
+interface Props {
+  /** Pretty brand (e.g. `oriz-ui`). */
+  brand: string
+  /** Short purpose, one line. */
+  oneLine: string
+  /** Bare npm package name without scope (e.g. `oriz-ui`). Used to build the docs URL. */
+  slug: string
+  /** Full scoped npm name, e.g. `@chirag127/oriz-ui`. Renders as mono caption. */
+  npmName: string
+  /** GitHub repo slug `chirag127/<name>`. */
+  repo?: string
+}
+
+const { brand, oneLine, slug, npmName, repo } = Astro.props
+const docsUrl = `https://packages.oriz.in/${slug}`
+const npmUrl = `https://www.npmjs.com/package/${npmName}`
+const ghUrl = repo ? `https://github.com/${repo}` : null
+---
+
+<article class="pkg-card">
+  <header class="pkg-head">
+    <h3 class="pkg-brand">{brand}</h3>
+    <code class="pkg-name">{npmName}</code>
+  </header>
+
+  <p class="pkg-line">{oneLine}</p>
+
+  <p class="pkg-meta">
+    <a class="pkg-docs" href={docsUrl}>Full docs →</a>
+    <span class="meta-sep" aria-hidden="true">·</span>
+    <a class="pkg-link" href={npmUrl}>npm</a>
+    {ghUrl && (
+      <>
+        <span class="meta-sep" aria-hidden="true">·</span>
+        <a class="pkg-link" href={ghUrl}>github</a>
+      </>
+    )}
+  </p>
+</article>
+
+<style>
+  .pkg-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+    border: 1px solid var(--rule);
+    background: var(--paper);
+  }
+  .pkg-head {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+  .pkg-brand {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.25rem;
+    line-height: 1.15;
+    color: var(--ink);
+  }
+  .pkg-name {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-mute);
+    letter-spacing: 0.04em;
+  }
+  .pkg-line {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 0.9375rem;
+    line-height: 1.45;
+    color: var(--ink);
+  }
+  .pkg-meta {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-mute);
+    letter-spacing: 0.04em;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 0.5rem;
+  }
+  .pkg-docs {
+    color: var(--mustard);
+  }
+  .pkg-docs:hover,
+  .pkg-docs:focus-visible {
+    text-decoration: underline;
+  }
+  .pkg-link {
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    text-decoration-color: var(--ink-mute);
+  }
+  .pkg-link:hover,
+  .pkg-link:focus-visible {
+    color: var(--mustard);
+    text-decoration-color: var(--mustard);
+  }
+  .meta-sep {
+    color: var(--ink-mute);
+  }
+</style>

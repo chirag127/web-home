@@ -1,0 +1,104 @@
+---
+/*
+ * /extensions — browser + IDE extension distribution channels.
+ *
+ * Renders every extension repo. Per the AGENTS.md family naming rule:
+ *   - `*-ext`     → browser extension (Chrome / Firefox / Edge)
+ *   - `*-vsc-ext` → VS Code extension (VSCE marketplace + Open VSX)
+ *
+ * Channels rendered:
+ *   - Chrome Web Store    (cws)
+ *   - Firefox Add-ons     (firefox)
+ *   - Edge Add-ons        (edge)
+ *   - VS Code Marketplace (vsce)
+ *   - Open VSX            (open_vsx)
+ *
+ * No extensions have shipped yet — the list is empty and the page shows a
+ * placeholder. As soon as the first `oriz-*-ext` repo is added to apps.ts
+ * (with category `extension`), it will render here automatically.
+ */
+import BaseLayout from '~/layouts/BaseLayout.astro'
+import AppCard from '~/components/AppCard.astro'
+import { APPS } from '~/data/apps'
+import type { Channel } from '~/data/apps'
+
+const EXT_CHANNELS: Channel[] = ['cws', 'firefox', 'edge', 'vsce', 'open_vsx']
+
+const extensions = APPS.filter((a) => a.category === 'extension')
+---
+
+<BaseLayout
+  title="Extensions — oriz"
+  description="Browser and editor extensions in the oriz family — Chrome Web Store, Firefox Add-ons, Edge Add-ons, VS Code Marketplace, Open VSX."
+  wordmarkSubtitle="extensions"
+>
+  <article class="page spine">
+    <h1 class="page-title">Extensions</h1>
+    <p class="page-lede">
+      Browser and editor extensions in the oriz family. Each card links to every
+      store the extension is published on — Chrome Web Store, Firefox Add-ons,
+      Edge Add-ons, the VS Code Marketplace, and Open VSX.
+    </p>
+
+    {extensions.length === 0 ? (
+      <p class="page-empty">
+        No extensions have shipped yet. The first browser and VS Code extensions
+        are in development under the <code>chirag127/oriz-*-ext</code> and
+        <code>chirag127/oriz-*-vsc-ext</code> naming convention. Watch{' '}
+        <a href="https://github.com/chirag127?tab=repositories&q=oriz+ext">
+          github.com/chirag127
+        </a>{' '}
+        for updates.
+      </p>
+    ) : (
+      <section class="app-section">
+        <div class="app-grid">
+          {extensions.map((app) => <AppCard app={app} channels={EXT_CHANNELS} />)}
+        </div>
+      </section>
+    )}
+  </article>
+</BaseLayout>
+
+<style>
+  .page {
+    padding-block: clamp(2rem, 5vw, 3rem) clamp(3rem, 6vw, 4rem);
+  }
+  .page-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    margin: 0 0 0.5rem;
+    color: var(--ink);
+  }
+  .page-lede {
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    color: var(--ink);
+    max-width: 60ch;
+    margin: 0 0 2rem;
+  }
+  .page-empty {
+    font-family: var(--font-display);
+    font-size: 0.9375rem;
+    color: var(--ink-mute);
+    border: 1px dashed var(--rule);
+    padding: 1.25rem;
+    max-width: 60ch;
+  }
+  .page-empty code {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--ink);
+    background: color-mix(in oklab, var(--ink) 6%, transparent);
+    padding: 0.1rem 0.25rem;
+  }
+  .app-section {
+    margin-top: 1.5rem;
+  }
+  .app-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+</style>

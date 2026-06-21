@@ -1,0 +1,99 @@
+---
+/*
+ * /apps — the full app catalog, grouped by category (tool / content /
+ * personal / hub).
+ *
+ * Renders 24 AppCard tiles, one per oriz-*-app repo. No channel badges
+ * here — this page is about discoverability, the /mobile, /desktop, and
+ * /extensions sub-pages handle store-channel UX.
+ *
+ * Per knowledge/decisions/architecture/pwabuilder-as-primary-converter.md
+ * every native binary comes from PWABuilder — so the per-section pages
+ * provide the channel UX, this page provides the per-app card with its
+ * cross-link to packages.oriz.in for full docs.
+ */
+import BaseLayout from '~/layouts/BaseLayout.astro'
+import AppCard from '~/components/AppCard.astro'
+import { appsByCategory } from '~/data/apps'
+
+const grouped = appsByCategory()
+
+/* The four category buckets we render in order. */
+const SECTIONS: { id: string; label: string; key: 'tool' | 'content' | 'personal' | 'hub' }[] = [
+  { id: 'tools', label: 'Tools', key: 'tool' },
+  { id: 'content', label: 'Content', key: 'content' },
+  { id: 'personal', label: 'Personal', key: 'personal' },
+  { id: 'hub', label: 'Hub', key: 'hub' },
+]
+---
+
+<BaseLayout
+  title="Apps — oriz"
+  description="Every app in the oriz family — tools, content sites, and personal sites. Each card links to its subdomain and full docs."
+  wordmarkSubtitle="apps"
+>
+  <article class="page spine">
+    <h1 class="page-title">Apps</h1>
+    <p class="page-lede">
+      Every app in the oriz family — 24 sites in total, across tools, content, and
+      personal. Each card links to the live subdomain and to full docs at
+      packages.oriz.in.
+    </p>
+
+    {SECTIONS.map((section) => {
+      const apps = grouped[section.key]
+      if (apps.length === 0) return null
+      return (
+        <section id={section.id} class="app-section">
+          <h2 class="section-h">{section.label} <span class="section-count">({apps.length})</span></h2>
+          <div class="app-grid">
+            {apps.map((app) => <AppCard app={app} />)}
+          </div>
+        </section>
+      )
+    })}
+  </article>
+</BaseLayout>
+
+<style>
+  .page {
+    padding-block: clamp(2rem, 5vw, 3rem) clamp(3rem, 6vw, 4rem);
+  }
+  .page-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    margin: 0 0 0.5rem;
+    color: var(--ink);
+  }
+  .page-lede {
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    color: var(--ink);
+    max-width: 60ch;
+    margin: 0 0 2rem;
+  }
+  .app-section {
+    margin-top: 2.5rem;
+  }
+  .section-h {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--ink-mute);
+    font-weight: 500;
+    margin: 0 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .section-count {
+    color: var(--ink-mute);
+    margin-left: 0.5em;
+  }
+  .app-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+</style>

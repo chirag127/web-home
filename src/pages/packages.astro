@@ -1,0 +1,256 @@
+---
+/*
+ * /packages — the @chirag127/* npm package catalog, grouped by the 5
+ * sidebar groups used in packages.oriz.in:
+ *
+ *   - Astro foundation
+ *   - UI & widgets
+ *   - Data & auth
+ *   - Distribution
+ *   - Testing
+ *
+ * Each card links to packages.oriz.in/<slug> for full docs. The catalog
+ * is read from the 22-package memory note (see ~/.claude/projects/.../
+ * twenty-two-packages-on-npm.md) plus any future packages added by the
+ * agents-md-sync flow.
+ */
+import BaseLayout from '~/layouts/BaseLayout.astro'
+import PackageCard from '~/components/PackageCard.astro'
+
+type PkgGroup = 'astro' | 'ui' | 'data' | 'dist' | 'testing'
+
+interface Pkg {
+  brand: string
+  slug: string             // npm name without scope
+  npmName: string          // full @chirag127/<name>
+  repo: string             // chirag127/<repo-slug>-npm-pkg
+  oneLine: string
+  group: PkgGroup
+}
+
+const PACKAGES: Pkg[] = [
+  // ── Astro foundation ────────────────────────────────────────────────
+  {
+    brand: 'astro-shell',
+    slug: 'astro-shell',
+    npmName: '@chirag127/astro-shell',
+    repo: 'chirag127/astro-shell-npm-pkg',
+    oneLine: 'Family-anchor Astro layout — header, footer, JSON-LD, feed discovery.',
+    group: 'astro',
+  },
+  {
+    brand: 'astro-test-utils',
+    slug: 'astro-test-utils',
+    npmName: '@chirag127/astro-test-utils',
+    repo: 'chirag127/astro-test-utils-npm-pkg',
+    oneLine: 'Vitest helpers for Astro components — happy-dom containers, slot fakes.',
+    group: 'astro',
+  },
+  {
+    brand: 'astro-content-helpers',
+    slug: 'astro-content-helpers',
+    npmName: '@chirag127/astro-content-helpers',
+    repo: 'chirag127/astro-content-helpers-npm-pkg',
+    oneLine: 'Content-collection schemas + loaders shared across oriz reading sites.',
+    group: 'astro',
+  },
+
+  // ── UI & widgets ────────────────────────────────────────────────────
+  {
+    brand: 'oriz-ui',
+    slug: 'oriz-ui',
+    npmName: '@chirag127/oriz-ui',
+    repo: 'chirag127/oriz-ui-npm-pkg',
+    oneLine: 'Broadsheet design-system primitives — typography, tokens, components.',
+    group: 'ui',
+  },
+  {
+    brand: 'oriz-multisearch',
+    slug: 'oriz-multisearch',
+    npmName: '@chirag127/oriz-multisearch',
+    repo: 'chirag127/oriz-multisearch-npm-pkg',
+    oneLine: 'Federated search popover — DuckDuckGo, Brave, Kagi, Google in one keystroke.',
+    group: 'ui',
+  },
+  {
+    brand: 'oriz-status-banner',
+    slug: 'oriz-status-banner',
+    npmName: '@chirag127/oriz-status-banner',
+    repo: 'chirag127/oriz-status-banner-npm-pkg',
+    oneLine: 'Family-wide status banner — fetches incident state at the edge, no flash.',
+    group: 'ui',
+  },
+  {
+    brand: 'oriz-consent',
+    slug: 'oriz-consent',
+    npmName: '@chirag127/oriz-consent',
+    repo: 'chirag127/oriz-consent-npm-pkg',
+    oneLine: 'Klaro-backed cookie consent banner with sane oriz-family defaults.',
+    group: 'ui',
+  },
+
+  // ── Data & auth ─────────────────────────────────────────────────────
+  {
+    brand: 'oriz-auth',
+    slug: 'oriz-auth',
+    npmName: '@chirag127/oriz-auth',
+    repo: 'chirag127/oriz-auth-npm-pkg',
+    oneLine: 'Firebase Auth wrapper with email-link sign-in + cross-subdomain SSO.',
+    group: 'data',
+  },
+  {
+    brand: 'oriz-firestore',
+    slug: 'oriz-firestore',
+    npmName: '@chirag127/oriz-firestore',
+    repo: 'chirag127/oriz-firestore-npm-pkg',
+    oneLine: 'Typed Firestore collection helpers + offline-first sync.',
+    group: 'data',
+  },
+  {
+    brand: 'oriz-feeds',
+    slug: 'oriz-feeds',
+    npmName: '@chirag127/oriz-feeds',
+    repo: 'chirag127/oriz-feeds-npm-pkg',
+    oneLine: 'RSS + Atom + JSON Feed builders — three formats from one source.',
+    group: 'data',
+  },
+  {
+    brand: 'oriz-jsonld',
+    slug: 'oriz-jsonld',
+    npmName: '@chirag127/oriz-jsonld',
+    repo: 'chirag127/oriz-jsonld-npm-pkg',
+    oneLine: 'Schema.org JSON-LD blocks — Organization, WebSite, Person, Article.',
+    group: 'data',
+  },
+
+  // ── Distribution ────────────────────────────────────────────────────
+  {
+    brand: 'oriz-pwa',
+    slug: 'oriz-pwa',
+    npmName: '@chirag127/oriz-pwa',
+    repo: 'chirag127/oriz-pwa-npm-pkg',
+    oneLine: 'PWA wiring — manifest, service worker, install prompt, update toast.',
+    group: 'dist',
+  },
+  {
+    brand: 'oriz-pwabuilder',
+    slug: 'oriz-pwabuilder',
+    npmName: '@chirag127/oriz-pwabuilder',
+    repo: 'chirag127/oriz-pwabuilder-npm-pkg',
+    oneLine: 'CLI thin wrapper around PWABuilder — generates AAB/MSIX/iOS-project.',
+    group: 'dist',
+  },
+  {
+    brand: 'oriz-deploy',
+    slug: 'oriz-deploy',
+    npmName: '@chirag127/oriz-deploy',
+    repo: 'chirag127/oriz-deploy-npm-pkg',
+    oneLine: 'Cloudflare Pages deploy preset — wrangler config, env-var schema, CI matrix.',
+    group: 'dist',
+  },
+
+  // ── Testing ─────────────────────────────────────────────────────────
+  {
+    brand: 'oriz-playwright',
+    slug: 'oriz-playwright',
+    npmName: '@chirag127/oriz-playwright',
+    repo: 'chirag127/oriz-playwright-npm-pkg',
+    oneLine: 'Playwright base config + fixtures shared across the oriz family.',
+    group: 'testing',
+  },
+  {
+    brand: 'oriz-vitest',
+    slug: 'oriz-vitest',
+    npmName: '@chirag127/oriz-vitest',
+    repo: 'chirag127/oriz-vitest-npm-pkg',
+    oneLine: 'Vitest preset — happy-dom, V8 coverage, oriz-flavoured snapshot serializer.',
+    group: 'testing',
+  },
+]
+
+const GROUPS: { id: PkgGroup; label: string }[] = [
+  { id: 'astro', label: 'Astro foundation' },
+  { id: 'ui', label: 'UI & widgets' },
+  { id: 'data', label: 'Data & auth' },
+  { id: 'dist', label: 'Distribution' },
+  { id: 'testing', label: 'Testing' },
+]
+---
+
+<BaseLayout
+  title="Packages — oriz"
+  description="Free, open-source npm packages by Chirag Singhal — the foundations of the oriz family. Astro layouts, UI primitives, data helpers, distribution and testing presets."
+  wordmarkSubtitle="packages"
+>
+  <article class="page spine">
+    <h1 class="page-title">Packages</h1>
+    <p class="page-lede">
+      The npm packages that power the oriz family — 16 in total, grouped by
+      purpose. Every card links to the full docs at packages.oriz.in.
+    </p>
+
+    {GROUPS.map((g) => {
+      const items = PACKAGES.filter((p) => p.group === g.id)
+      if (items.length === 0) return null
+      return (
+        <section class="pkg-section">
+          <h2 class="section-h">{g.label} <span class="section-count">({items.length})</span></h2>
+          <div class="pkg-grid">
+            {items.map((p) => (
+              <PackageCard
+                brand={p.brand}
+                oneLine={p.oneLine}
+                slug={p.slug}
+                npmName={p.npmName}
+                repo={p.repo}
+              />
+            ))}
+          </div>
+        </section>
+      )
+    })}
+  </article>
+</BaseLayout>
+
+<style>
+  .page {
+    padding-block: clamp(2rem, 5vw, 3rem) clamp(3rem, 6vw, 4rem);
+  }
+  .page-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    margin: 0 0 0.5rem;
+    color: var(--ink);
+  }
+  .page-lede {
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    color: var(--ink);
+    max-width: 60ch;
+    margin: 0 0 2rem;
+  }
+  .pkg-section {
+    margin-top: 2.5rem;
+  }
+  .section-h {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--ink-mute);
+    font-weight: 500;
+    margin: 0 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .section-count {
+    color: var(--ink-mute);
+    margin-left: 0.5em;
+  }
+  .pkg-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+</style>

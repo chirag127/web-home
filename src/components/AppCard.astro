@@ -1,0 +1,175 @@
+---
+/*
+ * AppCard.astro — generic per-app card.
+ *
+ * Used on every /apps, /mobile, /desktop, /extensions row. The set of
+ * channel badges that render is controlled by the `channels` prop — the
+ * page passes the list relevant to its section:
+ *
+ *   /apps       → []                (no channel badges — just brand + link)
+ *   /mobile     → ['play_store', 'github_release_apk']
+ *   /desktop    → ['ms_store', 'github_release_msix', 'github_release_dmg', 'github_release_appimage']
+ *   /extensions → ['cws', 'firefox', 'edge', 'vsce', 'open_vsx']
+ *
+ * If the page passes channels but the app has none of them filled in,
+ * each badge renders as a 'Coming soon' chip — that's the documented
+ * "Android via PWABuilder" copy. Per app metadata also drives the
+ * production-status pill (production / wip / scaffold).
+ *
+ * Cross-link: every card has a 'Full docs →' link to packages.oriz.in/<slug>.
+ */
+import type { AppMeta, Channel } from '~/data/apps'
+import { appDocsUrl } from '~/data/apps'
+import ChannelBadge from '~/components/ChannelBadge.astro'
+
+interface Props {
+  app: AppMeta
+  /** Channels to render badges for. Empty array → no channel row. */
+  channels?: Channel[]
+  /** Hide the 'Full docs →' cross-link (e.g. when card already in /packages context). */
+  hideDocsLink?: boolean
+}
+
+const { app, channels = [], hideDocsLink = false } = Astro.props
+
+const STATUS_LABEL: Record<AppMeta['status'], string> = {
+  production: 'production',
+  wip: 'wip',
+  scaffold: 'scaffold',
+}
+---
+
+<article class="app-card" data-status={app.status}>
+  <header class="app-head">
+    <a class="brand-link" href={app.subdomain}>
+      <h3 class="brand-mark">{app.brand}</h3>
+    </a>
+    <span class="status-pill" data-status={app.status} aria-label={`Status: ${STATUS_LABEL[app.status]}`}>
+      {STATUS_LABEL[app.status]}
+    </span>
+  </header>
+
+  <p class="app-line">{app.oneLine}</p>
+
+  <p class="app-meta">
+    <a class="app-domain" href={app.subdomain}>{app.subdomain.replace(/^https?:\/\//, '')}</a>
+    {!hideDocsLink && (
+      <>
+        <span class="meta-sep" aria-hidden="true">·</span>
+        <a class="app-docs" href={appDocsUrl(app)}>Full docs →</a>
+      </>
+    )}
+  </p>
+
+  {channels.length > 0 && (
+    <div class="app-channels" role="group" aria-label="Distribution channels">
+      {channels.map((c) => (
+        <ChannelBadge channel={c} url={app.channels[c]} />
+      ))}
+    </div>
+  )}
+</article>
+
+<style>
+  .app-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+    border: 1px solid var(--rule);
+    background: var(--paper);
+  }
+  .app-card[data-status='scaffold'] {
+    border-style: dashed;
+  }
+  .app-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+  .brand-link {
+    color: inherit;
+    text-decoration: none;
+  }
+  .brand-link:hover .brand-mark,
+  .brand-link:focus-visible .brand-mark {
+    color: var(--mustard);
+  }
+  .brand-mark {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.5rem;
+    line-height: 1.1;
+    color: var(--ink);
+  }
+  .status-pill {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 0.15rem 0.4rem;
+    border: 1px solid var(--rule);
+    color: var(--ink-mute);
+    white-space: nowrap;
+  }
+  .status-pill[data-status='production'] {
+    color: var(--paper);
+    background: var(--ledger, #1a3a2a);
+    border-color: transparent;
+  }
+  .status-pill[data-status='wip'] {
+    color: var(--paper);
+    background: var(--mustard);
+    border-color: transparent;
+  }
+
+  .app-line {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 0.9375rem;
+    line-height: 1.45;
+    color: var(--ink);
+  }
+
+  .app-meta {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 0.5rem;
+    align-items: baseline;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-mute);
+    letter-spacing: 0.04em;
+  }
+  .app-domain {
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    text-decoration-color: var(--ink-mute);
+  }
+  .app-domain:hover,
+  .app-domain:focus-visible {
+    color: var(--mustard);
+    text-decoration-color: var(--mustard);
+  }
+  .app-docs {
+    color: var(--mustard);
+  }
+  .app-docs:hover,
+  .app-docs:focus-visible {
+    text-decoration: underline;
+  }
+  .meta-sep {
+    color: var(--ink-mute);
+  }
+
+  .app-channels {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.25rem;
+  }
+</style>
