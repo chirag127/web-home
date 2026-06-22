@@ -1,0 +1,106 @@
+---
+/*
+ * home-app Footer — family-wide nav surface.
+ *
+ * Hub footer's signature element: a marquee strip of the family-site
+ * emojis (one bold detail per Rule 13). Everything else stays restrained.
+ * Drops in the universal <LegalFooter /> below the family columns.
+ *
+ * Palette: paper #f8f4ed + vermilion #e0492f accent (locked tokens).
+ * Type: Fraunces display, Inter body, JetBrains Mono utility.
+ */
+import LegalFooter from '@chirag127/astro-chrome/legal/LegalFooter.astro'
+import { FAMILY_SITES } from '~/lib/family'
+
+const apps = FAMILY_SITES.filter((s) => s.category !== 'personal' || s.slug === 'home' || s.slug === 'me')
+const tools = FAMILY_SITES.filter((s) => s.category === 'tools')
+const reading = FAMILY_SITES.filter((s) => s.category === 'reading')
+const finance = FAMILY_SITES.filter((s) => s.category === 'finance')
+---
+<footer class="home-footer" role="contentinfo">
+  <div class="hf-marquee" aria-hidden="true">
+    <div class="hf-track">
+      {[...apps, ...apps].map((s) => (
+        <span class="hf-pip">{s.emoji} <span class="hf-pip-name">{s.name}</span></span>
+      ))}
+    </div>
+  </div>
+  <div class="hf-sitemap">
+    <div class="hf-col">
+      <h3 class="hf-h">Apps</h3>
+      <ul>
+        {apps.map((s) => <li><a href={s.url}>{s.name}</a></li>)}
+      </ul>
+    </div>
+    <div class="hf-col">
+      <h3 class="hf-h">Reading</h3>
+      <ul>
+        {reading.map((s) => <li><a href={s.url}>{s.name}</a></li>)}
+      </ul>
+    </div>
+    <div class="hf-col">
+      <h3 class="hf-h">Tools</h3>
+      <ul>
+        {tools.map((s) => <li><a href={s.url}>{s.name}</a></li>)}
+      </ul>
+    </div>
+    <div class="hf-col">
+      <h3 class="hf-h">Finance</h3>
+      <ul>
+        {finance.map((s) => <li><a href={s.url}>{s.name}</a></li>)}
+      </ul>
+    </div>
+  </div>
+  <LegalFooter
+    appName="Oriz"
+    bio="A free family of static sites and tools by Chirag Singhal — no ads, no tracking, MIT-licensed."
+  />
+</footer>
+<style>
+  .home-footer {
+    margin-top: 4rem;
+    background: var(--color-bg, var(--paper));
+    color: var(--color-fg, var(--ink));
+    border-top: 1px solid var(--color-border, var(--rule));
+  }
+  .hf-marquee {
+    overflow: hidden;
+    border-bottom: 1px solid var(--color-border, var(--rule));
+    background: var(--color-bg, var(--paper));
+    padding: 14px 0;
+    font-family: var(--font-display, 'Fraunces', serif);
+  }
+  .hf-track {
+    display: inline-flex;
+    gap: 36px;
+    white-space: nowrap;
+    animation: hf-scroll 42s linear infinite;
+    will-change: transform;
+  }
+  @keyframes hf-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .hf-track { animation: none; } }
+  .hf-pip { font-size: 18px; letter-spacing: 0.01em; opacity: 0.85; }
+  .hf-pip-name { font-size: 14px; color: var(--color-muted, var(--ink-mute)); margin-left: 4px; }
+  .hf-sitemap {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr; gap: 24px;
+    padding: 32px 16px 12px;
+  }
+  .hf-h {
+    margin: 0 0 12px;
+    font-family: var(--font-utility, var(--font-mono));
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.16em;
+    color: var(--color-muted, var(--ink-mute)); font-weight: 500;
+  }
+  .hf-h-bump { margin-top: 18px; }
+  .hf-col ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; }
+  .hf-col a {
+    color: var(--color-fg, var(--ink));
+    font-size: 14px; text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 120ms ease;
+  }
+  .hf-col a:hover { border-bottom-color: var(--color-accent, var(--vermilion)); }
+  @media (min-width: 768px) { .hf-sitemap { grid-template-columns: 1fr 1fr; gap: 32px; padding: 40px 24px 16px; } }
+  @media (min-width: 1024px) { .hf-sitemap { grid-template-columns: repeat(4, 1fr); padding: 48px 24px 20px; } }
+</style>

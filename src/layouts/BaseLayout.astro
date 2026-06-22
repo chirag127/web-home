@@ -17,12 +17,11 @@ import '@chirag127/astro-shell/tokens.css'
 import '~/styles/tokens.css'
 import Header from '~/components/Header.astro'
 import Sidebar from '@chirag127/astro-chrome/Sidebar.astro'
-import Footer from '@chirag127/astro-chrome/Footer.astro'
+import Footer from '~/components/Footer.astro'
 import BottomBar from '@chirag127/astro-chrome/BottomBar.astro'
 import AppSidebarContent from '~/components/AppSidebarContent.astro'
 import JsonLd from '~/components/JsonLd.astro'
 import ConsentBanner from '@chirag127/astro-chrome/ConsentBanner.astro'
-import { FAMILY_SITES } from '~/lib/family'
 import { bottomBarActions } from '~/data/bottombar-actions'
 
 interface Props {
@@ -34,6 +33,14 @@ interface Props {
   wordmarkSubtitle?: string
   chrome?: 'full' | 'bare'
   bodyClass?: string
+  /**
+   * When false, drop the desktop left sidebar (family nav) and render the
+   * main column full-width. Mobile users still reach the family nav via
+   * the Header's hamburger drawer.
+   *
+   * Defaults true. Set false on `/`, legal pages, and auth pages.
+   */
+  sidebar?: boolean
 }
 
 const {
@@ -44,6 +51,7 @@ const {
   jsonLd,
   chrome = 'full',
   bodyClass,
+  sidebar = true,
 } = Astro.props
 
 const adsenseClient = import.meta.env.PUBLIC_ADSENSE_CLIENT
@@ -113,20 +121,15 @@ const cfAnalyticsEnabled = import.meta.env.PUBLIC_ENABLE_CF_ANALYTICS === 'true'
     {chrome === 'full' ? (
       <>
         <Header />
-        <div class="layout-body">
-          <Sidebar><AppSidebarContent /></Sidebar>
-          <main id="main"><slot /></main>
-        </div>
-        <Footer>
-          <div slot="pre" class="family-sites-grid">
-            <h2 class="family-sites-h">Family sites</h2>
-            <ul>
-              {FAMILY_SITES.map((s) => (
-                <li><a href={s.url}>{s.name}</a></li>
-              ))}
-            </ul>
+        {sidebar ? (
+          <div class="layout-body">
+            <Sidebar><AppSidebarContent /></Sidebar>
+            <main id="main"><slot /></main>
           </div>
-        </Footer>
+        ) : (
+          <main id="main" class="no-sidebar"><slot /></main>
+        )}
+        <Footer />
         <BottomBar actions={bottomBarActions} />
       </>
     ) : (
