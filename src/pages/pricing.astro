@@ -1,0 +1,166 @@
+---
+/*
+ * /pricing — placeholder v0 pricing page (2026-06-22).
+ *
+ * TODO: replace the inline three-tier table below with
+ *   `import { Pricing } from '@chirag127/astro-billing'`
+ * once the package exports a Pricing component. The package is in the
+ * deps tree (see `package.json`) but its current export shape is
+ * unverified; rather than break the build on a missing named export we
+ * render a v0 static table that matches the family pricing posture.
+ *
+ * Tiers (per knowledge/decisions/business/pricing-three-tiers.md):
+ *   Free      — every app, every package, no card, no quota.
+ *   Supporter — $5/mo (or $50/yr) optional donation, perks: priority issues.
+ *   Sponsor   — $25/mo enterprise tier with a logo slot on /about.
+ *
+ * BaseLayout chrome="full" so the family Header + Footer + BottomBar
+ * stay consistent with /apps and /books.
+ */
+import BaseLayout from '~/layouts/BaseLayout.astro'
+
+const TIERS: { name: string; price: string; sub: string; cta: string; href: string; perks: string[] }[] = [
+  {
+    name: 'Free',
+    price: '$0',
+    sub: 'forever',
+    cta: 'Use any app →',
+    href: '/apps/',
+    perks: [
+      'Every app, every package',
+      'No card, no quota, no upsell',
+      'Open source, MIT licensed',
+      'Sign in with Google or email',
+    ],
+  },
+  {
+    name: 'Supporter',
+    price: '$5',
+    sub: '/ month',
+    cta: 'Become a Supporter →',
+    href: 'https://github.com/sponsors/chirag127',
+    perks: [
+      'Priority issue triage',
+      'Supporter badge on /about',
+      'Early access to drafts',
+      'Cancel any time',
+    ],
+  },
+  {
+    name: 'Sponsor',
+    price: '$25',
+    sub: '/ month',
+    cta: 'Become a Sponsor →',
+    href: 'https://github.com/sponsors/chirag127',
+    perks: [
+      'Logo slot on /about',
+      'Quarterly architecture review',
+      'Direct email to maintainer',
+      'Everything in Supporter',
+    ],
+  },
+]
+---
+
+<BaseLayout
+  title="Pricing — Oriz"
+  description="Oriz is free forever. Optional Supporter and Sponsor tiers fund maintenance — never a paywall."
+  wordmarkSubtitle="pricing"
+>
+  <article class="page spine">
+    <h1 class="page-title">Pricing</h1>
+    <p class="page-lede">
+      Every app and every package in the Oriz family is free, forever. Supporter and
+      Sponsor tiers are entirely optional — they fund maintenance, not features.
+    </p>
+
+    <div class="tier-grid">
+      {TIERS.map((t) => (
+        <section class="tier">
+          <h2 class="tier-name">{t.name}</h2>
+          <p class="tier-price"><span class="big">{t.price}</span> <span class="sub">{t.sub}</span></p>
+          <ul class="tier-perks">
+            {t.perks.map((p) => <li>{p}</li>)}
+          </ul>
+          <a class="tier-cta" href={t.href}>{t.cta}</a>
+        </section>
+      ))}
+    </div>
+
+    <p class="note">
+      No paywalls, ever. See <a href="/about/">/about</a> for the funding model and
+      <a href="https://github.com/sponsors/chirag127">GitHub Sponsors</a> for the live tier list.
+    </p>
+  </article>
+</BaseLayout>
+
+<style>
+  .page {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: clamp(1.5rem, 4vw, 3rem) clamp(1rem, 3vw, 2rem);
+  }
+  .page-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    margin: 0 0 0.75rem;
+    color: var(--ink);
+  }
+  .page-lede {
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    color: var(--ink);
+    max-width: 60ch;
+    margin: 0 0 2rem;
+  }
+  .tier-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .tier {
+    border: 1px solid var(--rule);
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    background: var(--paper);
+  }
+  .tier-name {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.25rem;
+    margin: 0;
+  }
+  .tier-price .big {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 600;
+  }
+  .tier-price .sub {
+    color: var(--ink-mute);
+    font-size: 0.9375rem;
+  }
+  .tier-perks {
+    list-style: disc inside;
+    padding: 0;
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+  .tier-cta {
+    margin-top: auto;
+    color: var(--accent, var(--mustard));
+    font-family: var(--font-display);
+    font-weight: 500;
+  }
+  .note {
+    margin-top: 2rem;
+    color: var(--ink-mute);
+    font-size: 0.9375rem;
+  }
+</style>

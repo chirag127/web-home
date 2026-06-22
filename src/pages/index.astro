@@ -280,11 +280,21 @@ const buildDate = new Date().toLocaleDateString('en-US', { year: 'numeric', mont
 
     {/* 2 — Hero paragraph. */}
     <p class="lede">
-      Oriz is a family of free-forever, recruiter-grade web tools, reading sites,
-      and developer libraries built and maintained by{' '}
-      <a class="lede-link" href="https://me.oriz.in">Chirag Singhal</a>. Every site
+      Oriz — a 17-package, 26-app open family by{' '}
+      <a class="lede-link" href="https://me.oriz.in">Chirag Singhal</a>. Free-forever,
+      recruiter-grade web tools, reading sites, and developer libraries. Every site
       shares one sign-in, one design system, and one knowledge base.
     </p>
+
+    {/* 2a — 5-section family grid (2026-06-22). Five primary entry points. */}
+    <h2 class="section-h">Explore the family</h2>
+    <ul class="family-grid">
+      <li class="family-cell"><a href="/apps/"><strong>Apps</strong><span>26 web apps across tools, content, personal &amp; hub.</span></a></li>
+      <li class="family-cell"><a href="/tools/"><strong>Tools</strong><span>16 focused utilities — PDF, finance, dev, health.</span></a></li>
+      <li class="family-cell"><a href="/books/"><strong>Books</strong><span>5 books on Stack, Paisa, PDF, Janaushdhi, Me.</span></a></li>
+      <li class="family-cell"><a href="https://packages.oriz.in"><strong>Packages</strong><span>17 npm packages powering the family.</span></a></li>
+      <li class="family-cell"><a href="https://me.oriz.in"><strong>Me</strong><span>Chirag Singhal — lifestream &amp; resume.</span></a></li>
+    </ul>
 
     {/* 2b — Section nav. Plain text links to /apps, /packages, /mobile,
             /desktop, /extensions. The five new sections (2026-06-21). */}
@@ -817,6 +827,41 @@ const buildDate = new Date().toLocaleDateString('en-US', { year: 'numeric', mont
   }
   .colophon a {
     color: var(--accent);
+  }
+
+  /* ── 2a · Family grid (5-cell entry-point row) ─────────────────────── */
+  .family-grid {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 clamp(2rem, 5vw, 2.75rem);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 0.5rem;
+  }
+  .family-cell a {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0.75rem 0.875rem;
+    border: 1px solid var(--rule);
+    color: inherit;
+    text-decoration: none;
+    font-family: var(--font-display);
+    height: 100%;
+  }
+  .family-cell a:hover,
+  .family-cell a:focus-visible {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .family-cell strong {
+    font-weight: 600;
+    font-size: 1rem;
+  }
+  .family-cell span {
+    font-size: 0.875rem;
+    color: var(--ink-mute);
+    line-height: 1.4;
   }
 
   /* ── Mobile — collapse rows to two-line stacks. ────────────────────── */

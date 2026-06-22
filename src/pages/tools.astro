@@ -1,0 +1,157 @@
+---
+/*
+ * /tools — v0 grouped catalog of 16 family tools across 4 categories
+ * (2026-06-22). Placeholder data; the canonical apps catalog lives in
+ * `src/data/apps.ts` and `/apps` renders the full 26-app grid.
+ *
+ * Categories follow the family's natural problem-area split:
+ *   PDF tools (4) — pdf-tools subdomain + 3 conversion utilities.
+ *   Finance tools (4) — finance subdomain + cards + tax + flow.
+ *   Dev tools (4) — image-tools + urls-to-md + cards + journal.
+ *   Health tools (4) — placeholders for janaushdhi + diet + cycle + sleep.
+ */
+import BaseLayout from '~/layouts/BaseLayout.astro'
+
+interface Tool { name: string; desc: string; url: string }
+interface Group { id: string; label: string; tools: Tool[] }
+
+const GROUPS: Group[] = [
+  {
+    id: 'pdf', label: 'PDF tools',
+    tools: [
+      { name: 'PDF Tools',   desc: 'Browser PDF utilities — merge, split, compress.', url: 'https://pdf-tools.oriz.in' },
+      { name: 'PDF → MD',    desc: 'PDF to clean Markdown, in-browser.',              url: 'https://urls-to-md.oriz.in' },
+      { name: 'PDF → Image', desc: 'Rasterize PDF pages to PNG/JPEG.',                url: 'https://pdf-tools.oriz.in/rasterize' },
+      { name: 'PDF Forms',   desc: 'Fill, sign, and export PDF forms.',               url: 'https://pdf-tools.oriz.in/forms' },
+    ],
+  },
+  {
+    id: 'finance', label: 'Finance tools',
+    tools: [
+      { name: 'Finance',       desc: 'Personal finance dashboard.',                url: 'https://finance.oriz.in' },
+      { name: 'Cards',         desc: 'India credit-card intelligence.',            url: 'https://cards.oriz.in' },
+      { name: 'Tax Estimator', desc: 'India tax calculator (old + new regime).',   url: 'https://finance.oriz.in/tax' },
+      { name: 'FII / DII Flow', desc: 'Daily FII / DII activity feed (NSE).',      url: 'https://finance.oriz.in/flow' },
+    ],
+  },
+  {
+    id: 'dev', label: 'Dev tools',
+    tools: [
+      { name: 'Image Tools', desc: 'Browser image utilities — compress, convert.', url: 'https://image-tools.oriz.in' },
+      { name: 'URLs to MD',  desc: 'URL → clean Markdown, no API key.',            url: 'https://urls-to-md.oriz.in' },
+      { name: 'JSON Tools',  desc: 'JSON formatter, diff, schema.',                url: 'https://image-tools.oriz.in/json' },
+      { name: 'Regex Lab',   desc: 'Test regex against samples in-browser.',       url: 'https://image-tools.oriz.in/regex' },
+    ],
+  },
+  {
+    id: 'health', label: 'Health tools',
+    tools: [
+      { name: 'Janaushdhi',  desc: 'Generic medicine price-match (India).',        url: 'https://janaushdhi.oriz.in' },
+      { name: 'Diet Log',    desc: 'Daily food intake + macros.',                  url: 'https://journal.oriz.in/diet' },
+      { name: 'Cycle Track', desc: 'Privacy-first cycle tracker.',                 url: 'https://journal.oriz.in/cycle' },
+      { name: 'Sleep Log',   desc: 'Bedtime/wake log with heatmap.',               url: 'https://journal.oriz.in/sleep' },
+    ],
+  },
+]
+---
+
+<BaseLayout
+  title="Tools — Oriz"
+  description="16 focused tools across PDF, finance, dev, and health. Every tool is free, in-browser, no sign-up."
+  wordmarkSubtitle="tools"
+>
+  <article class="page spine">
+    <h1 class="page-title">Tools</h1>
+    <p class="page-lede">
+      Sixteen focused utilities across four problem areas. Every tool runs in the
+      browser — no upload, no quota, no sign-up. Placeholder catalog for v0; canonical
+      app data lives at <a href="/apps/">/apps</a>.
+    </p>
+
+    {GROUPS.map((g) => (
+      <section id={g.id} class="group">
+        <h2 class="section-h">{g.label} <span class="count">({g.tools.length})</span></h2>
+        <ul class="tool-grid">
+          {g.tools.map((t) => (
+            <li class="tool-card">
+              <a href={t.url}>
+                <strong>{t.name}</strong>
+                <span>{t.desc}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </article>
+</BaseLayout>
+
+<style>
+  .page {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: clamp(1.5rem, 4vw, 3rem) clamp(1rem, 3vw, 2rem);
+  }
+  .page-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    margin: 0 0 0.75rem;
+    color: var(--ink);
+  }
+  .page-lede {
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    color: var(--ink);
+    max-width: 60ch;
+    margin: 0 0 2rem;
+  }
+  .group { margin: 1.5rem 0; }
+  .section-h {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 1.125rem;
+    margin: 1.5rem 0 0.75rem;
+    color: var(--ink);
+  }
+  .count {
+    color: var(--ink-mute);
+    font-size: 0.9375rem;
+    margin-left: 0.25rem;
+  }
+  .tool-grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0.75rem;
+  }
+  .tool-card a {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0.875rem 1rem;
+    border: 1px solid var(--rule);
+    color: inherit;
+    text-decoration: none;
+    height: 100%;
+    background: var(--paper);
+  }
+  .tool-card a:hover,
+  .tool-card a:focus-visible {
+    border-color: var(--accent, var(--mustard));
+    color: var(--accent, var(--mustard));
+  }
+  .tool-card strong {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1rem;
+  }
+  .tool-card span {
+    font-family: var(--font-display);
+    font-size: 0.9375rem;
+    color: var(--ink-mute);
+    line-height: 1.45;
+  }
+</style>

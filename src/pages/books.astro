@@ -1,0 +1,184 @@
+---
+/*
+ * /books — v0 catalog of the 5 Oriz books (2026-06-22).
+ * Per knowledge/decisions/architecture/book-publish-pipeline.md.
+ *
+ * Covers are placeholder unicode glyphs at v0; the publish pipeline will
+ * generate proper SVG/JPEG covers per book and drop them in /public/books/.
+ * Buy links use Leanpub / Gumroad / LemonSqueezy placeholder hrefs — these
+ * resolve to the seller-product URL once each book lists.
+ */
+import BaseLayout from '~/layouts/BaseLayout.astro'
+
+interface BuyLink { store: 'Leanpub' | 'Gumroad' | 'LemonSqueezy'; href: string }
+interface Book { slug: string; title: string; desc: string; cover: string; buy: BuyLink[] }
+
+const BOOKS: Book[] = [
+  {
+    slug: 'stack',
+    title: 'Oriz Stack',
+    desc: 'How to build and ship a 26-app family on free tiers — every tool, every trade-off, every workflow.',
+    cover: '◐',
+    buy: [
+      { store: 'Leanpub',      href: 'https://leanpub.com/oriz-stack' },
+      { store: 'Gumroad',      href: 'https://chirag127.gumroad.com/l/oriz-stack' },
+      { store: 'LemonSqueezy', href: 'https://chirag127.lemonsqueezy.com/buy/oriz-stack' },
+    ],
+  },
+  {
+    slug: 'paisa',
+    title: 'Oriz Paisa',
+    desc: 'A practical guide to India personal finance — cards, tax, mutual funds, FIRE math.',
+    cover: '₹',
+    buy: [
+      { store: 'Leanpub',      href: 'https://leanpub.com/oriz-paisa' },
+      { store: 'Gumroad',      href: 'https://chirag127.gumroad.com/l/oriz-paisa' },
+      { store: 'LemonSqueezy', href: 'https://chirag127.lemonsqueezy.com/buy/oriz-paisa' },
+    ],
+  },
+  {
+    slug: 'pdf',
+    title: 'Oriz PDF',
+    desc: 'Working with PDFs in the browser — parsers, signing, OCR, form-fill, the full toolchain.',
+    cover: '⊞',
+    buy: [
+      { store: 'Leanpub',      href: 'https://leanpub.com/oriz-pdf' },
+      { store: 'Gumroad',      href: 'https://chirag127.gumroad.com/l/oriz-pdf' },
+      { store: 'LemonSqueezy', href: 'https://chirag127.lemonsqueezy.com/buy/oriz-pdf' },
+    ],
+  },
+  {
+    slug: 'janaushdhi',
+    title: 'Oriz Janaushdhi',
+    desc: 'The generic-medicine price-match book — India’s Jan Aushadhi catalogue, decoded.',
+    cover: '✚',
+    buy: [
+      { store: 'Leanpub',      href: 'https://leanpub.com/oriz-janaushdhi' },
+      { store: 'Gumroad',      href: 'https://chirag127.gumroad.com/l/oriz-janaushdhi' },
+      { store: 'LemonSqueezy', href: 'https://chirag127.lemonsqueezy.com/buy/oriz-janaushdhi' },
+    ],
+  },
+  {
+    slug: 'me',
+    title: 'Oriz Me',
+    desc: 'A working-in-public memoir — two years of shipping, the systems behind the lifestream.',
+    cover: '◯',
+    buy: [
+      { store: 'Leanpub',      href: 'https://leanpub.com/oriz-me' },
+      { store: 'Gumroad',      href: 'https://chirag127.gumroad.com/l/oriz-me' },
+      { store: 'LemonSqueezy', href: 'https://chirag127.lemonsqueezy.com/buy/oriz-me' },
+    ],
+  },
+]
+---
+
+<BaseLayout
+  title="Books — Oriz"
+  description="Five books by Chirag Singhal — Stack, Paisa, PDF, Janaushdhi, and Me. Available on Leanpub, Gumroad, and LemonSqueezy."
+  wordmarkSubtitle="books"
+>
+  <article class="page spine">
+    <h1 class="page-title">Books</h1>
+    <p class="page-lede">
+      Five books across the Oriz family — engineering, finance, PDFs, healthcare, and a
+      working-in-public memoir. Each ships on Leanpub, Gumroad, and LemonSqueezy.
+    </p>
+
+    <ul class="book-grid">
+      {BOOKS.map((b) => (
+        <li class="book-card">
+          <div class="cover" aria-hidden="true">{b.cover}</div>
+          <div class="book-body">
+            <h2 class="book-title">{b.title}</h2>
+            <p class="book-desc">{b.desc}</p>
+            <p class="book-buy">
+              {b.buy.map((l, i) => (
+                <>
+                  {i > 0 && <span aria-hidden="true"> · </span>}
+                  <a href={l.href}>{l.store}</a>
+                </>
+              ))}
+            </p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </article>
+</BaseLayout>
+
+<style>
+  .page {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: clamp(1.5rem, 4vw, 3rem) clamp(1rem, 3vw, 2rem);
+  }
+  .page-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    margin: 0 0 0.75rem;
+    color: var(--ink);
+  }
+  .page-lede {
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    color: var(--ink);
+    max-width: 60ch;
+    margin: 0 0 2rem;
+  }
+  .book-grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+  .book-card {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 1rem;
+    padding: 1rem;
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    align-items: start;
+  }
+  .cover {
+    width: 80px;
+    height: 112px;
+    background: color-mix(in oklab, var(--ink) 8%, transparent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    color: var(--ink-mute);
+    border: 1px solid var(--rule);
+  }
+  .book-title {
+    margin: 0 0 0.25rem;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.125rem;
+    color: var(--ink);
+  }
+  .book-desc {
+    margin: 0 0 0.5rem;
+    font-family: var(--font-display);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    color: var(--ink-mute);
+  }
+  .book-buy {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 0.875rem;
+  }
+  .book-buy a {
+    color: var(--accent, var(--mustard));
+  }
+  .book-buy a:hover,
+  .book-buy a:focus-visible {
+    text-decoration: underline;
+  }
+</style>
