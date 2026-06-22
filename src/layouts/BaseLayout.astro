@@ -20,8 +20,8 @@
  */
 import '~/styles/global.css'
 import '~/styles/oriz-ui-overrides.css'
-import Footer from '~/components/Footer.astro'
-import Header from '~/components/Header.astro'
+import Footer from '@chirag127/astro-chrome/Footer.astro'
+import Header from '@chirag127/astro-chrome/Header.astro'
 import JsonLd from '~/components/JsonLd.astro'
 import ConsentBanner from '@chirag127/astro-chrome/ConsentBanner.astro'
 
@@ -59,6 +59,7 @@ const {
 const adsenseClient = import.meta.env.PUBLIC_ADSENSE_CLIENT
 const beaconToken = import.meta.env.PUBLIC_CF_BEACON_TOKEN
 const cfAnalyticsEnabled = import.meta.env.PUBLIC_ENABLE_CF_ANALYTICS === 'true'
+import '@chirag127/astro-shell/tokens.css'
 ---
 
 <!doctype html>
