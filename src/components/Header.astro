@@ -1,0 +1,221 @@
+---
+/*
+ * Header — band 1 of the broadsheet. 56px tall, hairline above + below.
+ *
+ * Layout (matches design-briefs/oriz-home.md band 1):
+ *   ─── status banner (only when an incident is live) ──────────────────
+ *   ─── hairline rule ────────────────────────────────────────────────
+ *   ORIZ · ALMANAC          NO. 011 · JUN 2026 · CHIRAG SINGHAL
+ *   ─── hairline rule ────────────────────────────────────────────────
+ *   sign in    Search the web                            (right-aligned)
+ *
+ * NO nav links — sub-sites are reachable only through the index page.
+ * The two header affordances are: underlined `sign in` + the
+ * MultiSearch popover. Both as React islands per the locks.
+ *
+ * Family-anchor pattern: every site has its OWN header (per family rules).
+ * Sister sites copy this skeleton and substitute their own NO. + section
+ * label (e.g. "ORIZ · BLOG", "ORIZ · BOOKS").
+ */
+import { FAMILY_SITES } from '~/lib/family'
+import MultiSearch from '@chirag127/astro-chrome/MultiSearch'
+import StatusBanner from '@chirag127/astro-chrome/StatusBanner'
+
+interface Props {
+  /** Section name shown after `ORIZ ·`. Defaults to 'ALMANAC' (the home almanac). */
+  sectionLabel?: string
+  /** Subtitle for the wordmark (used on non-home pages). NOT rendered in this header — the wordmark lives in band 2 on the index. */
+  wordmarkSubtitle?: string
+}
+
+const { sectionLabel = 'ALMANAC' } = Astro.props
+
+const ISSUE_NO = String(FAMILY_SITES.length).padStart(3, '0')
+const month = new Date().toLocaleString('en-US', { month: 'short', year: 'numeric' }).toUpperCase()
+---
+
+<header class="header">
+  {/* Status banner — renders nothing when no incident is live. */}
+  <StatusBanner client:load siteId="home" />
+
+  <hr class="hairline" />
+  <div class="spine header-row header-meta">
+    <span class="meta-left mono">ORIZ · {sectionLabel}</span>
+    <span class="meta-right mono">NO. {ISSUE_NO} · {month} · CHIRAG SINGHAL</span>
+  </div>
+  <hr class="hairline" />
+  <div class="spine header-row header-sign">
+    <div class="search-mount"><MultiSearch client:idle titleSuffix=" — oriz" /></div>
+    <a href="/account/" class="sign-in">sign in</a>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: relative;
+    /* The header is intentionally NOT sticky — broadsheet pages don't have
+       sticky chrome. The page is short enough. */
+  }
+  .header-row {
+    display: flex;
+    align-items: center;
+    height: 28px; /* 28 + 28 = 56 total */
+  }
+  .header-meta {
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .header-sign {
+    justify-content: flex-end;
+    gap: 1.25rem;
+  }
+  .meta-left,
+  .meta-right {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-mute);
+    font-feature-settings:
+      'tnum' 1,
+      'zero' 1,
+      'calt' 0;
+  }
+  .meta-right {
+    text-align: right;
+  }
+  .sign-in {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--ink-mute);
+  }
+  .sign-in:hover {
+    color: var(--mustard);
+    text-decoration-color: var(--mustard);
+  }
+  .sign-in:focus-visible {
+    outline: 2px solid var(--mustard);
+    outline-offset: 2px;
+    text-decoration-color: var(--mustard);
+  }
+
+  .search-mount :global([data-oriz-multisearch='trigger']) {
+    background: transparent;
+    border: 0;
+    padding: 0;
+    color: var(--ink);
+    font: inherit;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--ink-mute);
+  }
+  .search-mount :global([data-oriz-multisearch='trigger']:hover) {
+    color: var(--mustard);
+    text-decoration-color: var(--mustard);
+  }
+  .search-mount :global([data-oriz-multisearch='trigger']:focus-visible) {
+    outline: 2px solid var(--mustard);
+    outline-offset: 2px;
+  }
+  .search-mount :global([data-oriz-multisearch='popover']) {
+    position: absolute;
+    right: 1rem;
+    top: 100%;
+    margin-top: 0.25rem;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    padding: 0.75rem;
+    z-index: 50;
+    min-width: 240px;
+    font-family: var(--font-sans);
+    font-size: 13px;
+  }
+  .search-mount :global([data-oriz-multisearch='query']) {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-mute);
+    margin: 0 0 0.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--rule);
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 220px;
+  }
+  .search-mount :global([data-oriz-multisearch='list']) {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+  .search-mount :global([data-oriz-multisearch='engine']) {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.375rem 0.5rem;
+    color: var(--ink);
+    text-decoration: none;
+    border-radius: 0;
+  }
+  .search-mount :global([data-oriz-multisearch='engine']:hover) {
+    background: color-mix(in oklab, var(--mustard) 14%, transparent);
+    color: var(--mustard);
+  }
+  .search-mount :global([data-oriz-multisearch='glyph']) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-mute);
+    border: 1px solid var(--rule);
+  }
+
+  /* Status banner — sites style via [data-oriz-status]. */
+  :global([data-oriz-status]) {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: var(--paper);
+    background: var(--mustard);
+    text-align: center;
+    justify-content: center;
+  }
+  :global([data-oriz-status='partial_outage']) { background: #d97706; color: var(--paper); }
+  :global([data-oriz-status='major_outage']) { background: var(--vermilion); color: #fff; }
+  :global([data-oriz-status='maintenance']) { background: var(--ledger); color: var(--paper); }
+  :global([data-oriz-status-link]) { color: inherit; text-decoration: underline; }
+  :global([data-oriz-status-dismiss]) {
+    margin-left: auto;
+    background: transparent;
+    border: 0;
+    color: inherit;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+    padding: 0 0.25rem;
+  }
+
+  /* Drop the hairline collapse on small screens — keep the strip 56px. */
+  @media (max-width: 480px) {
+    .meta-right {
+      font-size: 10px;
+      letter-spacing: 0.08em;
+    }
+  }
+</style>

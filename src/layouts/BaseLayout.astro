@@ -4,44 +4,34 @@
  *
  * v2 broadsheet almanac. Dark spine. No theme picker (the brief allows a
  * light variant via prefers-color-scheme but nothing user-toggleable).
- * Header is a 56px masthead-meta strip; footer is the 4-column sitemap
- * (band 4 / colophon).
  *
- * Family-anchor pattern: sister sites copy this skeleton and just change
- * the wordmark subtitle prop and the Google Fonts list.
- *
- * 2026-06-20 wiring (this commit):
- *   • Default <JsonLd> Organization + WebSite + Person triple in <head>.
- *   • Page-level `jsonLd` prop appends additional blocks (no replacement).
- *   • <FeedDiscovery /> link tags for /rss.xml + /atom.xml + /feed.json.
- *   • CF Web Analytics gated behind PUBLIC_ENABLE_CF_ANALYTICS=true.
- *   • <ConsentBanner /> mounted before </body> — Klaro lazy script.
- *   • Header now mounts <StatusBanner /> + <MultiSearch /> as React islands.
+ * 2026-06-22 revert (sweep #5):
+ *   • Header is LOCAL (~/components/Header.astro) — fully divergent per-app.
+ *   • Footer/Sidebar/BottomBar STRUCTURE imported from @chirag127/astro-chrome
+ *     with per-app slot content (AppSidebarContent + bottomBarActions).
+ *   • Footer remains identical mega-sitemap across the family.
  */
 import '~/styles/global.css'
 import '~/styles/oriz-ui-overrides.css'
-import Layout from '@chirag127/astro-chrome/Layout.astro'
+import '@chirag127/astro-shell/tokens.css'
+import Header from '~/components/Header.astro'
+import Sidebar from '@chirag127/astro-chrome/Sidebar.astro'
+import Footer from '@chirag127/astro-chrome/Footer.astro'
+import BottomBar from '@chirag127/astro-chrome/BottomBar.astro'
+import AppSidebarContent from '~/components/AppSidebarContent.astro'
 import JsonLd from '~/components/JsonLd.astro'
 import ConsentBanner from '@chirag127/astro-chrome/ConsentBanner.astro'
 import { FAMILY_SITES } from '~/lib/family'
+import { bottomBarActions } from '~/data/bottombar-actions'
 
 interface Props {
   title?: string
   description?: string
   canonical?: string
   noindex?: boolean
-  /** Page-level JSON-LD blocks appended to the default Org+WebSite+Person triple. */
   jsonLd?: Record<string, unknown> | Record<string, unknown>[]
-  /** Subtitle shown after `oriz /` in the wordmark. Default: `home`. */
   wordmarkSubtitle?: string
-  /**
-   * Layout chrome.
-   *   'full' → broadsheet Header + Footer (default; sub-pages use this).
-   *   'bare' → no Header / no Footer; the page renders its own minimal scaffold.
-   *            The Alphabet-style homepage uses this.
-   */
   chrome?: 'full' | 'bare'
-  /** Body class name (e.g. 'home-bare' to flip to white-paper / serif). */
   bodyClass?: string
 }
 
@@ -51,7 +41,6 @@ const {
   canonical = `https://oriz.in${Astro.url.pathname}`,
   noindex = false,
   jsonLd,
-  wordmarkSubtitle = 'home',
   chrome = 'full',
   bodyClass,
 } = Astro.props
@@ -59,13 +48,6 @@ const {
 const adsenseClient = import.meta.env.PUBLIC_ADSENSE_CLIENT
 const beaconToken = import.meta.env.PUBLIC_CF_BEACON_TOKEN
 const cfAnalyticsEnabled = import.meta.env.PUBLIC_ENABLE_CF_ANALYTICS === 'true'
-const bottomBarActions = [
-  { icon: '⌂', label: 'Home', href: 'https://oriz.in/' },
-  { icon: '✎', label: 'Blog', href: 'https://blog.oriz.in/' },
-  { icon: '⚒', label: 'Tools', href: 'https://oriz.in/tools/' },
-  { icon: 'ℹ', label: 'About', href: '/about/' },
-]
-import '@chirag127/astro-shell/tokens.css'
 ---
 
 <!doctype html>
@@ -89,20 +71,10 @@ import '@chirag127/astro-shell/tokens.css'
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-    {/*
-      Feed discovery — three formats per
-      knowledge/decisions/architecture/feeds-rss-atom-json.md.
-      Cross-link to canonical apex feeds (oriz.in) from every site.
-    */}
     <link rel="alternate" type="application/rss+xml" title="oriz · RSS" href="/rss.xml" />
     <link rel="alternate" type="application/atom+xml" title="oriz · Atom" href="/atom.xml" />
     <link rel="alternate" type="application/feed+json" title="oriz · JSON Feed" href="/feed.json" />
 
-    {/*
-      Type stack — the family-anchor combo. Newsreader (display, with optical-size
-      axis dragged toward 36 for the masthead lockup) + Inter Tight (body) +
-      JetBrains Mono (numerals, sub-domain strings, mono labels). NO Fraunces.
-    */}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -110,7 +82,6 @@ import '@chirag127/astro-shell/tokens.css'
       href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,ital,wght@6..72,0,400;6..72,0,600;6..72,0,700;6..72,1,400&family=Inter+Tight:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap"
     />
 
-    {/* Default Organization + WebSite + Person triple. */}
     <JsonLd extra={jsonLd} pageUrl={canonical} />
 
     {
@@ -124,7 +95,6 @@ import '@chirag127/astro-shell/tokens.css'
       )
     }
 
-    {/* Cloudflare Web Analytics — cookie-less, gated by PUBLIC_ENABLE_CF_ANALYTICS. */}
     {
       cfAnalyticsEnabled && beaconToken && (
         <script
@@ -139,20 +109,32 @@ import '@chirag127/astro-shell/tokens.css'
   <body class={bodyClass}>
     <a href="#main" class="skip-link">Skip to content</a>
     {chrome === 'full' ? (
-      <Layout wordmarkSubtitle={wordmarkSubtitle} bottomBarActions={bottomBarActions}>
-        <div slot="footer-extra" class="family-sites-grid">
-          <h2 class="family-sites-h">Family sites</h2>
-          <ul>
-            {FAMILY_SITES.map((s) => (
-              <li><a href={s.url}>{s.name}</a></li>
-            ))}
-          </ul>
+      <>
+        <Header />
+        <div class="layout-body">
+          <Sidebar><AppSidebarContent /></Sidebar>
+          <main id="main"><slot /></main>
         </div>
-        <slot />
-      </Layout>
+        <Footer>
+          <div slot="pre" class="family-sites-grid">
+            <h2 class="family-sites-h">Family sites</h2>
+            <ul>
+              {FAMILY_SITES.map((s) => (
+                <li><a href={s.url}>{s.name}</a></li>
+              ))}
+            </ul>
+          </div>
+        </Footer>
+        <BottomBar actions={bottomBarActions} />
+      </>
     ) : (
       <main id="main"><slot /></main>
     )}
     <ConsentBanner />
   </body>
 </html>
+
+<style>
+  .layout-body { display: flex; gap: 1rem; }
+  @media (max-width: 767px) { .layout-body { display: block; } }
+</style>
