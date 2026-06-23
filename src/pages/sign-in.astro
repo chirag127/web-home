@@ -3,30 +3,48 @@ import BaseLayout from '~/layouts/BaseLayout.astro'
 ---
 
 <BaseLayout
-  title="Sign in — oriz"
-  description="Sign in to Oriz. One account works across every Oriz site."
+  title="Redirecting to sign in — oriz"
+  description="Redirecting to account.oriz.in for unified sign-in."
   noindex={true}
   sidebar={false}
 >
   <header class="spine page-head">
     <p class="eyebrow"><a href="/">oriz</a> / sign in</p>
-    <h1>Sign in</h1>
-    <p class="lede">One sign-in works across every Oriz app.</p>
+    <h1>Redirecting…</h1>
+    <p class="lede">
+      Taking you to <a href="https://account.oriz.in/sign-in/">account.oriz.in</a> for unified sign-in.
+    </p>
   </header>
 
   <section class="spine prose">
-    <p>
-      Use the unified <a href="/account/">/account</a> panel — it handles
-      sign-in, sign-out, and account management in one place. Sign-in via
-      passwordless email link or one-tap Google.
-    </p>
     <p style="margin-top: 1.5rem">
       <a
-        href="/account/"
+        href="https://account.oriz.in/sign-in/"
         style="display: inline-block; padding: 0.625rem 1.125rem; background: var(--color-fg); color: var(--color-bg); border-radius: 999px; text-decoration: none; font-weight: 500;"
       >
-        Continue to account →
+        Continue to sign in →
       </a>
     </p>
+    <p style="margin-top: 1rem; color: var(--color-muted); font-size: 0.875rem">
+      Sign in supports Google, GitHub, Email + Password, and Phone (Pro tier).
+      Your session works across every <code>*.oriz.in</code> app via a cookie at <code>.oriz.in</code>.
+    </p>
   </section>
+
+  <script>
+    // Preserve ?return= / ?returnTo= / ?next= as the `return` param for account.oriz.in.
+    const params = new URLSearchParams(window.location.search)
+    const next = params.get('return') ?? params.get('returnTo') ?? params.get('next')
+    const target = new URL('https://account.oriz.in/sign-in/')
+    if (next) {
+      let absReturn = next
+      try {
+        absReturn = new URL(next, window.location.origin).toString()
+      } catch {}
+      target.searchParams.set('return', absReturn)
+    } else {
+      target.searchParams.set('return', window.location.origin + '/account/')
+    }
+    window.location.replace(target.toString())
+  </script>
 </BaseLayout>
