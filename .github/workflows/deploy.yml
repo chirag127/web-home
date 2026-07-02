@@ -1,25 +1,27 @@
-name: Deploy
+# Deploy — dispatch to chirag127/workspace umbrella.
+# Umbrella runs the actual deploy using umbrella-owned CF secrets.
+# Per knowledge/decisions/architecture/agent-tooling/workspace-owns-secrets-2026-07-02.md
+
+name: deploy
+
 on:
-  push:
+  workflow_run:
+    workflows: [ci]
+    types: [completed]
     branches: [main]
   workflow_dispatch:
-  workflow_call:
-permissions:
-  contents: read
-  deployments: write
+
 jobs:
-  deploy:
+  dispatch:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
-      - uses: pnpm/action-setup@v6
-      - uses: actions/setup-node@v6
-        with: { node-version: 22, cache: pnpm }
-      - run: pnpm install --frozen-lockfile=false
-      - run: pnpm build
-      - name: Publish to Cloudflare Pages
-        uses: cloudflare/wrangler-action@v4
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=oriz-home --branch=main
+      - name: Dispatch deploy at umbrella
+        env:
+          GH_TOKEN: ${{ secrets.WORKSPACE_DISPATCH_PAT }}
+        run: |
+          gh api repos/chirag127/workspace/dispatches \
+            -f event_type=deploy \
+            -f "client_payload[repo]=$GITHUB_REPOSITORY" \
+            -f "client_payload[sha]=$GITHUB_SHA" \
+            -f "client_payload[class]=astro-site"
