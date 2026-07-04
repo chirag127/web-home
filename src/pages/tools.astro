@@ -12,44 +12,116 @@
  */
 import BaseLayout from '~/layouts/BaseLayout.astro'
 
-interface Tool { name: string; desc: string; url: string }
-interface Group { id: string; label: string; tools: Tool[] }
+interface Tool {
+  name: string
+  desc: string
+  url: string
+}
+interface Group {
+  id: string
+  label: string
+  tools: Tool[]
+}
 
 const GROUPS: Group[] = [
   {
-    id: 'pdf', label: 'PDF tools',
+    id: 'pdf',
+    label: 'PDF tools',
     tools: [
-      { name: 'PDF Tools',   desc: 'Browser PDF utilities — merge, split, compress.', url: 'https://pdf-tools.oriz.in' },
-      { name: 'PDF → MD',    desc: 'PDF to clean Markdown, in-browser.',              url: 'https://urls-to-md.oriz.in' },
-      { name: 'PDF → Image', desc: 'Rasterize PDF pages to PNG/JPEG.',                url: 'https://pdf-tools.oriz.in/rasterize' },
-      { name: 'PDF Forms',   desc: 'Fill, sign, and export PDF forms.',               url: 'https://pdf-tools.oriz.in/forms' },
+      {
+        name: 'PDF Tools',
+        desc: 'Browser PDF utilities — merge, split, compress.',
+        url: 'https://pdf-tools.oriz.in',
+      },
+      {
+        name: 'PDF → MD',
+        desc: 'PDF to clean Markdown, in-browser.',
+        url: 'https://urls-to-md.oriz.in',
+      },
+      {
+        name: 'PDF → Image',
+        desc: 'Rasterize PDF pages to PNG/JPEG.',
+        url: 'https://pdf-tools.oriz.in/rasterize',
+      },
+      {
+        name: 'PDF Forms',
+        desc: 'Fill, sign, and export PDF forms.',
+        url: 'https://pdf-tools.oriz.in/forms',
+      },
     ],
   },
   {
-    id: 'finance', label: 'Finance tools',
+    id: 'finance',
+    label: 'Finance tools',
     tools: [
-      { name: 'Finance',       desc: 'Personal finance dashboard.',                url: 'https://finance.oriz.in' },
-      { name: 'Financial Cards', desc: 'India card intelligence (credit/debit/prepaid/travel/corporate).', url: 'https://financial-cards.oriz.in' },
-      { name: 'Tax Estimator', desc: 'India tax calculator (old + new regime).',   url: 'https://finance.oriz.in/tax' },
-      { name: 'FII / DII Flow', desc: 'Daily FII / DII activity feed (NSE).',      url: 'https://finance.oriz.in/flow' },
+      { name: 'Finance', desc: 'Personal finance dashboard.', url: 'https://finance.oriz.in' },
+      {
+        name: 'Financial Cards',
+        desc: 'India card intelligence (credit/debit/prepaid/travel/corporate).',
+        url: 'https://financial-cards.oriz.in',
+      },
+      {
+        name: 'Tax Estimator',
+        desc: 'India tax calculator (old + new regime).',
+        url: 'https://finance.oriz.in/tax',
+      },
+      {
+        name: 'FII / DII Flow',
+        desc: 'Daily FII / DII activity feed (NSE).',
+        url: 'https://finance.oriz.in/flow',
+      },
     ],
   },
   {
-    id: 'dev', label: 'Dev tools',
+    id: 'dev',
+    label: 'Dev tools',
     tools: [
-      { name: 'Image Tools', desc: 'Browser image utilities — compress, convert.', url: 'https://image-tools.oriz.in' },
-      { name: 'URLs to MD',  desc: 'URL → clean Markdown, no API key.',            url: 'https://urls-to-md.oriz.in' },
-      { name: 'JSON Tools',  desc: 'JSON formatter, diff, schema.',                url: 'https://image-tools.oriz.in/json' },
-      { name: 'Regex Lab',   desc: 'Test regex against samples in-browser.',       url: 'https://image-tools.oriz.in/regex' },
+      {
+        name: 'Image Tools',
+        desc: 'Browser image utilities — compress, convert.',
+        url: 'https://image-tools.oriz.in',
+      },
+      {
+        name: 'URLs to MD',
+        desc: 'URL → clean Markdown, no API key.',
+        url: 'https://urls-to-md.oriz.in',
+      },
+      {
+        name: 'JSON Tools',
+        desc: 'JSON formatter, diff, schema.',
+        url: 'https://image-tools.oriz.in/json',
+      },
+      {
+        name: 'Regex Lab',
+        desc: 'Test regex against samples in-browser.',
+        url: 'https://image-tools.oriz.in/regex',
+      },
     ],
   },
   {
-    id: 'health', label: 'Health tools',
+    id: 'health',
+    label: 'Health tools',
     tools: [
-      { name: 'Janaushdhi',  desc: 'Generic medicine price-match (India).',        url: 'https://janaushdhi.oriz.in' },
-      { name: 'Diet Log',    desc: 'Daily food intake + macros.',                  url: 'https://journal.oriz.in/diet' },
-      { name: 'Cycle Track', desc: 'Privacy-first cycle tracker.',                 url: 'https://journal.oriz.in/cycle' },
-      { name: 'Sleep Log',   desc: 'Bedtime/wake log with heatmap.',               url: 'https://journal.oriz.in/sleep' },
+      {
+        name: 'Janaushdhi',
+        desc: 'Generic medicine price-match (India).',
+        url: 'https://janaushdhi.oriz.in',
+      },
+      {
+        name: 'Diet Log',
+        desc: 'Daily food intake + macros.',
+        url: 'https://journal.oriz.in/diet',
+      },
+      {
+        name: 'Cycle Track',
+        desc: 'Privacy-first cycle tracker.',
+        url: 'https://journal.oriz.in/cycle',
+      },
+      {
+        name: 'Sleep Log',
+        desc: 'Bedtime/wake log with heatmap.',
+        url: 'https://journal.oriz.in/sleep',
+      },
     ],
   },
 ]

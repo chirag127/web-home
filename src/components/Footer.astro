@@ -20,7 +20,9 @@ const legalLinks = [
   { href: '/disclaimer', label: 'Disclaimer' },
 ]
 
-const apps = FAMILY_SITES.filter((s) => s.category !== 'personal' || s.slug === 'home' || s.slug === 'me')
+const apps = FAMILY_SITES.filter(
+  (s) => s.category !== 'personal' || s.slug === 'home' || s.slug === 'me',
+)
 const tools = FAMILY_SITES.filter((s) => s.category === 'tools')
 const reading = FAMILY_SITES.filter((s) => s.category === 'reading')
 const finance = FAMILY_SITES.filter((s) => s.category === 'finance')

@@ -1,4 +1,5 @@
 ---
+import PackageCard from '~/components/PackageCard.astro'
 /*
  * /packages — the @chirag127/* npm package catalog, grouped by the 5
  * sidebar groups used in packages.oriz.in:
@@ -15,15 +16,14 @@
  * agents-md-sync flow.
  */
 import BaseLayout from '~/layouts/BaseLayout.astro'
-import PackageCard from '~/components/PackageCard.astro'
 
 type PkgGroup = 'astro' | 'ui' | 'data' | 'dist' | 'testing'
 
 interface Pkg {
   brand: string
-  slug: string             // npm name without scope
-  npmName: string          // full @chirag127/<name>
-  repo: string             // chirag127/<repo-slug>-npm-pkg
+  slug: string // npm name without scope
+  npmName: string // full @chirag127/<name>
+  repo: string // chirag127/<repo-slug>-npm-pkg
   oneLine: string
   group: PkgGroup
 }

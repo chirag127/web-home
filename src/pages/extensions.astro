@@ -1,4 +1,7 @@
 ---
+import AppCard from '~/components/AppCard.astro'
+import type { Channel } from '~/data/apps'
+import { APPS } from '~/data/apps'
 /*
  * /extensions — browser + IDE extension distribution channels.
  *
@@ -18,9 +21,6 @@
  * (with category `extension`), it will render here automatically.
  */
 import BaseLayout from '~/layouts/BaseLayout.astro'
-import AppCard from '~/components/AppCard.astro'
-import { APPS } from '~/data/apps'
-import type { Channel } from '~/data/apps'
 
 const EXT_CHANNELS: Channel[] = ['cws', 'firefox', 'edge', 'vsce', 'open_vsx']
 

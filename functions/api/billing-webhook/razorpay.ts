@@ -42,7 +42,9 @@ async function hmacHex(key: string, body: string): Promise<string> {
     ['sign'],
   )
   const sig = await crypto.subtle.sign('HMAC', k, enc.encode(body))
-  return Array.from(new Uint8Array(sig)).map((b) => b.toString(16).padStart(2, '0')).join('')
+  return Array.from(new Uint8Array(sig))
+    .map((b) => b.toString(16).padStart(2, '0'))
+    .join('')
 }
 
 function timingSafeEq(a: string, b: string): boolean {
@@ -117,7 +119,13 @@ async function getAccessToken(sa: SA): Promise<string> {
 /* ─── Firestore REST helpers ────────────────────────────────────────── */
 
 // Firestore REST type-tagged values.
-type FsValue = { stringValue?: string; integerValue?: string; booleanValue?: boolean; nullValue?: null; timestampValue?: string }
+type FsValue = {
+  stringValue?: string
+  integerValue?: string
+  booleanValue?: boolean
+  nullValue?: null
+  timestampValue?: string
+}
 
 function toFsValue(v: unknown): FsValue {
   if (v === null || v === undefined) return { nullValue: null }
@@ -142,7 +150,7 @@ async function fsPatch(
   const updateMask = Object.keys(fields)
     .map((k) => `updateMask.fieldPaths=${encodeURIComponent(k)}`)
     .join('&')
-  const url = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/${path}?${updateMask}&currentDocument.exists=false`
+  const _url = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/${path}?${updateMask}&currentDocument.exists=false`
   // First try create-only; if doc exists, fall through to merge update.
   // To keep this simple, just do a PATCH without currentDocument constraint (upsert merge).
   const url2 = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/${path}?${updateMask}`
@@ -178,7 +186,14 @@ interface RzpEvent {
   id?: string
   created_at?: number
   payload: {
-    subscription?: { entity: { id?: string; plan_id?: string; current_end?: number; notes?: Record<string, string> } }
+    subscription?: {
+      entity: {
+        id?: string
+        plan_id?: string
+        current_end?: number
+        notes?: Record<string, string>
+      }
+    }
     payment?: { entity: { notes?: Record<string, string> } }
   }
 }
@@ -206,8 +221,6 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     return new Response('bad json', { status: 400 })
   }
 
-  console.log('[webhook] event', event.event, 'id', event.id)
-
   let sa: SA
   try {
     sa = JSON.parse(env.FIREBASE_SERVICE_ACCOUNT_JSON) as SA
@@ -226,13 +239,14 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
 
   const eventId =
     event.id ??
-    [event.event, event.payload?.subscription?.entity?.id, event.created_at].filter(Boolean).join(':')
+    [event.event, event.payload?.subscription?.entity?.id, event.created_at]
+      .filter(Boolean)
+      .join(':')
 
   // Idempotency check
   const evPath = `processed_events/${encodeURIComponent(eventId)}`
   const evRes = await fsGet(sa.project_id, token, evPath)
   if (evRes.ok) {
-    console.log('[webhook] duplicate event', eventId)
     return new Response('OK (duplicate)', { status: 200 })
   }
 
@@ -289,7 +303,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     })
 
     // Also write the convenience users/{uid}.tier (for read-side rules).
-    if (tierInfo?.tier && (status === 'active')) {
+    if (tierInfo?.tier && status === 'active') {
       await fsPatch(sa.project_id, token, `users/${encodeURIComponent(uid)}`, {
         tier: tierInfo.tier,
         updated_at: Date.now(),

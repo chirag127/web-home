@@ -10,8 +10,17 @@
  */
 import BaseLayout from '~/layouts/BaseLayout.astro'
 
-interface BuyLink { store: 'Leanpub' | 'Gumroad' | 'LemonSqueezy'; href: string }
-interface Book { slug: string; title: string; desc: string; cover: string; buy: BuyLink[] }
+interface BuyLink {
+  store: 'Leanpub' | 'Gumroad' | 'LemonSqueezy'
+  href: string
+}
+interface Book {
+  slug: string
+  title: string
+  desc: string
+  cover: string
+  buy: BuyLink[]
+}
 
 const BOOKS: Book[] = [
   {
@@ -20,8 +29,8 @@ const BOOKS: Book[] = [
     desc: 'How to build and ship a 26-app family on free tiers — every tool, every trade-off, every workflow.',
     cover: '◐',
     buy: [
-      { store: 'Leanpub',      href: 'https://leanpub.com/oriz-stack' },
-      { store: 'Gumroad',      href: 'https://chirag127.gumroad.com/l/oriz-stack' },
+      { store: 'Leanpub', href: 'https://leanpub.com/oriz-stack' },
+      { store: 'Gumroad', href: 'https://chirag127.gumroad.com/l/oriz-stack' },
       { store: 'LemonSqueezy', href: 'https://chirag127.lemonsqueezy.com/buy/oriz-stack' },
     ],
   },
@@ -31,8 +40,8 @@ const BOOKS: Book[] = [
     desc: 'A practical guide to India personal finance — cards, tax, mutual funds, FIRE math.',
     cover: '₹',
     buy: [
-      { store: 'Leanpub',      href: 'https://leanpub.com/oriz-paisa' },
-      { store: 'Gumroad',      href: 'https://chirag127.gumroad.com/l/oriz-paisa' },
+      { store: 'Leanpub', href: 'https://leanpub.com/oriz-paisa' },
+      { store: 'Gumroad', href: 'https://chirag127.gumroad.com/l/oriz-paisa' },
       { store: 'LemonSqueezy', href: 'https://chirag127.lemonsqueezy.com/buy/oriz-paisa' },
     ],
   },
@@ -42,8 +51,8 @@ const BOOKS: Book[] = [
     desc: 'Working with PDFs in the browser — parsers, signing, OCR, form-fill, the full toolchain.',
     cover: '⊞',
     buy: [
-      { store: 'Leanpub',      href: 'https://leanpub.com/oriz-pdf' },
-      { store: 'Gumroad',      href: 'https://chirag127.gumroad.com/l/oriz-pdf' },
+      { store: 'Leanpub', href: 'https://leanpub.com/oriz-pdf' },
+      { store: 'Gumroad', href: 'https://chirag127.gumroad.com/l/oriz-pdf' },
       { store: 'LemonSqueezy', href: 'https://chirag127.lemonsqueezy.com/buy/oriz-pdf' },
     ],
   },
@@ -53,8 +62,8 @@ const BOOKS: Book[] = [
     desc: 'The generic-medicine price-match book — India’s Jan Aushadhi catalogue, decoded.',
     cover: '✚',
     buy: [
-      { store: 'Leanpub',      href: 'https://leanpub.com/oriz-janaushdhi' },
-      { store: 'Gumroad',      href: 'https://chirag127.gumroad.com/l/oriz-janaushdhi' },
+      { store: 'Leanpub', href: 'https://leanpub.com/oriz-janaushdhi' },
+      { store: 'Gumroad', href: 'https://chirag127.gumroad.com/l/oriz-janaushdhi' },
       { store: 'LemonSqueezy', href: 'https://chirag127.lemonsqueezy.com/buy/oriz-janaushdhi' },
     ],
   },
@@ -64,8 +73,8 @@ const BOOKS: Book[] = [
     desc: 'A working-in-public memoir — two years of shipping, the systems behind the lifestream.',
     cover: '◯',
     buy: [
-      { store: 'Leanpub',      href: 'https://leanpub.com/oriz-me' },
-      { store: 'Gumroad',      href: 'https://chirag127.gumroad.com/l/oriz-me' },
+      { store: 'Leanpub', href: 'https://leanpub.com/oriz-me' },
+      { store: 'Gumroad', href: 'https://chirag127.gumroad.com/l/oriz-me' },
       { store: 'LemonSqueezy', href: 'https://chirag127.lemonsqueezy.com/buy/oriz-me' },
     ],
   },

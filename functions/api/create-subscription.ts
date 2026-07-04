@@ -71,12 +71,13 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     return json({ error: 'bad body' }, { status: 400 }, origin)
   }
 
-  let planId = body.plan_id ?? (body.plan_tier ? planMap[body.plan_tier] : undefined)
+  const planId = body.plan_id ?? (body.plan_tier ? planMap[body.plan_tier] : undefined)
   if (!planId || !validPlanIds.has(planId)) {
     return json({ error: 'unknown plan' }, { status: 400 }, origin)
   }
 
-  const isYearly = planId === env.RAZORPAY_PLAN_PRO_YEARLY || planId === env.RAZORPAY_PLAN_MAX_YEARLY
+  const isYearly =
+    planId === env.RAZORPAY_PLAN_PRO_YEARLY || planId === env.RAZORPAY_PLAN_MAX_YEARLY
   const total_count = isYearly ? 10 : 120 // 10 years yearly / 10 years monthly
 
   const basic = btoa(`${env.RAZORPAY_KEY_ID}:${env.RAZORPAY_KEY_SECRET}`)

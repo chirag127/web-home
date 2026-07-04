@@ -1,4 +1,5 @@
 ---
+import { APPS } from '~/data/apps'
 /*
  * AppSidebarContent — per-app slot child for the family mega-nav.
  * Renders inside @chirag127/astro-chrome/Sidebar.astro's default slot.
@@ -7,13 +8,24 @@
  * APPS list. Lazy: links only, no fancy state.
  */
 import { FAMILY_SITES } from '~/lib/family'
-import { APPS } from '~/data/apps'
 
 const hub = [{ href: 'https://oriz.in/', label: 'Home' }]
-const content = APPS.filter((a) => a.category === 'content').map((a) => ({ href: a.subdomain, label: a.brand }))
-const tools = APPS.filter((a) => a.category === 'tool').map((a) => ({ href: a.subdomain, label: a.brand }))
-const personal = APPS.filter((a) => a.category === 'personal').map((a) => ({ href: a.subdomain, label: a.brand }))
-const books = FAMILY_SITES.filter((s) => s.category === 'reading').map((s) => ({ href: s.url, label: s.name }))
+const content = APPS.filter((a) => a.category === 'content').map((a) => ({
+  href: a.subdomain,
+  label: a.brand,
+}))
+const tools = APPS.filter((a) => a.category === 'tool').map((a) => ({
+  href: a.subdomain,
+  label: a.brand,
+}))
+const personal = APPS.filter((a) => a.category === 'personal').map((a) => ({
+  href: a.subdomain,
+  label: a.brand,
+}))
+const books = FAMILY_SITES.filter((s) => s.category === 'reading').map((s) => ({
+  href: s.url,
+  label: s.name,
+}))
 
 const groups = [
   { label: 'Hub', items: hub },

@@ -5,9 +5,7 @@
   "feed_url": "https://oriz.in/feed.json",
   "description": "A family of small, free, static sites by Chirag Singhal.",
   "language": "en",
-  "authors": [
-    { "name": "Chirag Singhal", "url": "https://me.oriz.in" }
-  ],
+  "authors": [{ "name": "Chirag Singhal", "url": "https://me.oriz.in" }],
   "items": [
     {
       "id": "https://oriz.in",

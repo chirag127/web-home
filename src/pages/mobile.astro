@@ -1,4 +1,7 @@
 ---
+import AppCard from '~/components/AppCard.astro'
+import type { Channel } from '~/data/apps'
+import { APPS } from '~/data/apps'
 /*
  * /mobile — Android distribution channels per app.
  *
@@ -16,9 +19,6 @@
  * App Store.
  */
 import BaseLayout from '~/layouts/BaseLayout.astro'
-import AppCard from '~/components/AppCard.astro'
-import { APPS } from '~/data/apps'
-import type { Channel } from '~/data/apps'
 
 const MOBILE_CHANNELS: Channel[] = ['play_store', 'github_release_apk']
 

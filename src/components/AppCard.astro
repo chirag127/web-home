@@ -1,4 +1,5 @@
 ---
+import ChannelBadge from '~/components/ChannelBadge.astro'
 /*
  * AppCard.astro — generic per-app card.
  *
@@ -20,7 +21,6 @@
  */
 import type { AppMeta, Channel } from '~/data/apps'
 import { appDocsUrl } from '~/data/apps'
-import ChannelBadge from '~/components/ChannelBadge.astro'
 
 interface Props {
   app: AppMeta

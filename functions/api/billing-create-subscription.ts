@@ -114,8 +114,8 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   }
 
   const sub = (await rzpRes.json()) as { id: string }
-  return new Response(
-    JSON.stringify({ subscription_id: sub.id, key_id: env.RAZORPAY_KEY_ID }),
-    { status: 200, headers: { 'content-type': 'application/json' } },
-  )
+  return new Response(JSON.stringify({ subscription_id: sub.id, key_id: env.RAZORPAY_KEY_ID }), {
+    status: 200,
+    headers: { 'content-type': 'application/json' },
+  })
 }

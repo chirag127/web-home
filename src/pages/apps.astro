@@ -1,4 +1,6 @@
 ---
+import AppCard from '~/components/AppCard.astro'
+import { appsByCategory } from '~/data/apps'
 /*
  * /apps — the full app catalog, grouped by category (tool / content /
  * personal / hub).
@@ -13,8 +15,6 @@
  * cross-link to packages.oriz.in for full docs.
  */
 import BaseLayout from '~/layouts/BaseLayout.astro'
-import AppCard from '~/components/AppCard.astro'
-import { appsByCategory } from '~/data/apps'
 
 const grouped = appsByCategory()
 

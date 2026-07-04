@@ -71,7 +71,8 @@ const ICONS: Record<Channel, string> = {
 
 /* Default 'coming soon' subtitles. */
 function defaultComingSoon(c: Channel): string {
-  if (c === 'play_store' || c === 'github_release_apk') return 'Coming soon — Android via PWABuilder'
+  if (c === 'play_store' || c === 'github_release_apk')
+    return 'Coming soon — Android via PWABuilder'
   if (c === 'ms_store' || c === 'github_release_msix') return 'Coming soon — Windows via PWABuilder'
   if (c === 'github_release_dmg') return 'Coming soon — macOS via PWABuilder'
   if (c === 'github_release_appimage') return 'Coming soon — Linux via PWABuilder'

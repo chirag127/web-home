@@ -1,4 +1,5 @@
 ---
+import FeaturePanel from '~/components/FeaturePanel.astro'
 /*
  * oriz / home — index page (v0 locked design 2026-06-22).
  *
@@ -18,44 +19,68 @@
  * prefers-reduced-motion. Letters fade-in + wave through font-weight 300→900.
  */
 import BaseLayout from '~/layouts/BaseLayout.astro'
-import FeaturePanel from '~/components/FeaturePanel.astro'
 
 /* ── 2 · Apps ────────────────────────────────────────────────────────── */
 const APP_CARDS = [
-  { name: 'Home',       desc: 'Family hub — every Oriz app in one place.',           host: 'oriz.in',          url: 'https://oriz.in' },
-  { name: 'Blog',       desc: 'Long-form essays on engineering, finance, books.',    host: 'blog.oriz.in',     url: 'https://blog.oriz.in' },
-  { name: 'NCERT',      desc: 'Free NCERT textbook directory — class · subject · language.', host: 'books.oriz.in', url: 'https://books.oriz.in' },
-  { name: 'Janaushdhi', desc: 'PMBJP generic-medicine catalog — search, compare, locate.', host: 'janaushdhi.oriz.in', url: 'https://janaushdhi.oriz.in' },
-  { name: 'Packages',   desc: 'Catalog of every @chirag127/* npm package.',          host: 'packages.oriz.in', url: 'https://packages.oriz.in' },
+  {
+    name: 'Home',
+    desc: 'Family hub — every Oriz app in one place.',
+    host: 'oriz.in',
+    url: 'https://oriz.in',
+  },
+  {
+    name: 'Blog',
+    desc: 'Long-form essays on engineering, finance, books.',
+    host: 'blog.oriz.in',
+    url: 'https://blog.oriz.in',
+  },
+  {
+    name: 'NCERT',
+    desc: 'Free NCERT textbook directory — class · subject · language.',
+    host: 'books.oriz.in',
+    url: 'https://books.oriz.in',
+  },
+  {
+    name: 'Janaushdhi',
+    desc: 'PMBJP generic-medicine catalog — search, compare, locate.',
+    host: 'janaushdhi.oriz.in',
+    url: 'https://janaushdhi.oriz.in',
+  },
+  {
+    name: 'Packages',
+    desc: 'Catalog of every @chirag127/* npm package.',
+    host: 'packages.oriz.in',
+    url: 'https://packages.oriz.in',
+  },
 ]
 
 /* ── 3 · Tools ───────────────────────────────────────────────────────── */
 const TOOL_LIST = [
-  { slug: 'slice-pdf',     host: 'pdf.oriz.in' },
-  { slug: 'pixie-image',   host: 'image.oriz.in' },
-  { slug: 'scribe-text',   host: 'text.oriz.in' },
-  { slug: 'grid-qr',       host: 'qr.oriz.in' },
+  { slug: 'slice-pdf', host: 'pdf.oriz.in' },
+  { slug: 'pixie-image', host: 'image.oriz.in' },
+  { slug: 'scribe-text', host: 'text.oriz.in' },
+  { slug: 'grid-qr', host: 'qr.oriz.in' },
   { slug: 'paisa-finance', host: 'finance.oriz.in' },
-  { slug: 'forge-dev',     host: 'dev.oriz.in' },
+  { slug: 'forge-dev', host: 'dev.oriz.in' },
   { slug: 'shift-convert', host: 'convert.oriz.in' },
-  { slug: 'dice-random',   host: 'random.oriz.in' },
+  { slug: 'dice-random', host: 'random.oriz.in' },
   { slug: 'cipher-crypto', host: 'crypto.oriz.in' },
-  { slug: 'paper-print',   host: 'print.oriz.in' },
+  { slug: 'paper-print', host: 'print.oriz.in' },
   { slug: 'vitals-health', host: 'health.oriz.in' },
-  { slug: 'rank-seo',      host: 'seo.oriz.in' },
-  { slug: 'reel-video',    host: 'video.oriz.in' },
-  { slug: 'echo-audio',    host: 'audio.oriz.in' },
-  { slug: 'pivot-data',    host: 'data.oriz.in' },
-  { slug: 'tbd-16',        host: 'tbd.oriz.in' },
+  { slug: 'rank-seo', host: 'seo.oriz.in' },
+  { slug: 'reel-video', host: 'video.oriz.in' },
+  { slug: 'echo-audio', host: 'audio.oriz.in' },
+  { slug: 'pivot-data', host: 'data.oriz.in' },
+  { slug: 'tbd-16', host: 'tbd.oriz.in' },
 ]
 
 /* ── 4 · Books ───────────────────────────────────────────────────────── */
 const BOOKS = [
-  { title: 'The Stack',          author: 'Chirag Singhal' },
-  { title: 'Paisa',              author: 'Chirag Singhal' },
+  { title: 'The Stack', author: 'Chirag Singhal' },
+  { title: 'Paisa', author: 'Chirag Singhal' },
   { title: 'PDF: A Field Guide', author: 'Chirag Singhal' },
-  { title: 'Janaushdhi',         author: 'Chirag Singhal' },
-  { title: 'Me',                 author: 'Chirag Singhal' },
+  { title: 'Janaushdhi', author: 'Chirag Singhal' },
+  { title: 'Me', author: 'Chirag Singhal' },
 ]
 
 /* ── 5 · Packages ─────────────────────────────────────────────────────

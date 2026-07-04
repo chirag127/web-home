@@ -9,7 +9,7 @@
  *     build-gate (see knowledge/decisions/architecture/fleet/scope-cut-2026-06-25.md):
  *     cards, finance, health, packages, tools, oriz-cipher-crypto-tools-app,
  *     oriz-forge-dev-tools-app, oriz-omni-post-app.
- *   - Repo slugs migrated chirag127/oriz-* → oriz-org/<short-slug> (Phase D).
+ *   - Repo slugs migrated chirag127/oriz-* → chirag127/<short-slug> (Phase D).
  *
  * Static metadata (slug / brand / one-liner / category / subdomain / repo /
  * status / packages) is hand-curated here. Native-distribution channels
@@ -47,7 +47,7 @@ export type AppCategory = 'tool' | 'content' | 'personal' | 'hub' | 'extension'
 export type AppStatus = 'production' | 'wip' | 'scaffold'
 
 export interface AppMeta {
-  /** Short slug. Same as the GitHub repo name under oriz-org/. */
+  /** Short slug. Same as the GitHub repo name under chirag127/. */
   slug: string
   /** Pretty brand name, e.g. `Paisa`, `Cards`, `Forge`. */
   brand: string
@@ -57,7 +57,7 @@ export interface AppMeta {
   category: AppCategory
   /** Canonical subdomain URL — always present. */
   subdomain: string
-  /** `oriz-org/<slug>` — passed to the GH Releases API. */
+  /** `chirag127/<slug>` — passed to the GH Releases API. */
   repo: string
   /** Production-status badge. */
   status: AppStatus
@@ -93,7 +93,7 @@ const APPS_STATIC: AppMeta[] = [
     oneLine: "Chirag Singhal's personal site — hero, now, uses, CV, contact.",
     category: 'personal',
     subdomain: 'https://me.oriz.in',
-    repo: 'oriz-org/me',
+    repo: 'chirag127/me',
     status: 'production',
     channels: { web: 'https://me.oriz.in' },
   },
@@ -106,7 +106,7 @@ const APPS_STATIC: AppMeta[] = [
       'Read-only catalog of the PMBJP generic medicine list — search, filter, compare prices, locate the nearest Kendra.',
     category: 'content',
     subdomain: 'https://janaushdhi.oriz.in',
-    repo: 'oriz-org/oriz-janaushdhi-app',
+    repo: 'chirag127/oriz-janaushdhi-app',
     status: 'scaffold',
     channels: { web: 'https://janaushdhi.oriz.in' },
   },
@@ -117,7 +117,7 @@ const APPS_STATIC: AppMeta[] = [
       'Free, ad-supported library of structured book summaries — overview, content map, critical analysis, narration script.',
     category: 'content',
     subdomain: 'https://book-lore.oriz.in',
-    repo: 'oriz-org/oriz-lore-app',
+    repo: 'chirag127/oriz-lore-app',
     status: 'production',
     channels: { web: 'https://book-lore.oriz.in' },
   },
@@ -128,18 +128,17 @@ const APPS_STATIC: AppMeta[] = [
       'Free NCERT textbook directory — browse, search, and download every NCERT book by class, subject, and language.',
     category: 'content',
     subdomain: 'https://books.oriz.in',
-    repo: 'oriz-org/oriz-ncert-app',
+    repo: 'chirag127/oriz-ncert-app',
     status: 'production',
     channels: { web: 'https://books.oriz.in' },
   },
   {
     slug: 'blog',
     brand: 'Pages',
-    oneLine:
-      'Long-form writing on engineering, finance, and books — the blog of the oriz family.',
+    oneLine: 'Long-form writing on engineering, finance, and books — the blog of the oriz family.',
     category: 'content',
     subdomain: 'https://blog.oriz.in',
-    repo: 'oriz-org/blog',
+    repo: 'chirag127/blog',
     status: 'production',
     channels: { web: 'https://blog.oriz.in' },
   },
@@ -150,7 +149,7 @@ const APPS_STATIC: AppMeta[] = [
       'Privacy-first PWA journal — Tiptap editor, mood + tags + photos, calendar heatmap, memories, search, streaks, goals, optional E2EE.',
     category: 'content',
     subdomain: 'https://journal.oriz.in',
-    repo: 'oriz-org/journal',
+    repo: 'chirag127/journal',
     status: 'production',
     channels: { web: 'https://journal.oriz.in' },
   },
