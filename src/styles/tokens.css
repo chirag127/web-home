@@ -1,74 +1,129 @@
 /*
- * tokens.css — locked design palette + type stack (2026-06-22).
+ * tokens.css — MD3 dark-first palette + type stack (2026-07-08).
  *
- * Per the v0 brief: paper bg, vermilion accent, Fraunces display +
- * Inter body + JetBrains Mono utility. Names are kept family-wide;
- * VALUES are overridden here.
+ * Replaces the paper/vermilion v0 brief with Material Design 3 dark tokens.
+ * Semantic aliases (--paper, --ink, --rule, etc.) are preserved so all
+ * components continue to compile unchanged.
  *
- * Imported AFTER global.css + oriz-ui-overrides.css so these values win.
+ * Import order: global.css → oriz-ui-overrides.css → astro-shell/tokens.css → THIS FILE
+ * (last write wins — MD3 values override everything above)
  */
 
-@import '@fontsource-variable/fraunces';
-@import '@fontsource-variable/inter';
-@import '@fontsource-variable/jetbrains-mono';
-
+/* ── MD3 reference tokens ─────────────────────────────────────────────── */
 :root {
-  /* Locked palette */
-  --color-bg: #f8f4ed;           /* paper */
-  --color-fg: #08090b;           /* ink */
-  --color-accent: #e0492f;       /* vermilion */
-  --color-muted: #525252;        /* steel */
-  --color-ochre: #c68e17;
-  --color-border: rgba(8, 9, 11, 0.12);
+  --md-surface:                 #0F0D13;
+  --md-surface-container-low:   #1D1B20;
+  --md-surface-container:       #211F26;
+  --md-surface-container-high:  #2B2930;
+  --md-primary:                 #D0BCFF;
+  --md-on-surface:              #E6E1E5;
+  --md-on-surface-variant:      #CAC4D0;
+  --md-outline-variant:         #49454F;
+  --md-outline:                 #938F99;
+  --md-secondary-container:     #4A4458;
+  --md-on-secondary-container:  #E8DEF8;
+  --md-error:                   #F2B8B5;
+  --md-error-container:         #8C1D18;
 
-  /* Aliases the family-wide tokens (global.css/oriz-ui-overrides) read from.
-     We OVERRIDE existing names — paper/ink/etc. */
-  --paper: var(--color-bg);
-  --paper-deep: var(--color-bg);
-  --ink: var(--color-fg);
-  --ink-mute: var(--color-muted);
-  --rule: var(--color-border);
-  --mustard: var(--color-ochre);
-  --vermilion: var(--color-accent);
-  --ledger: var(--color-muted);
-  --highlighter: var(--color-ochre);
+  /* Type scale */
+  --md-font-display: "Google Sans Display", Roboto, system-ui, sans-serif;
+  --md-font-body:    "Google Sans Text", Roboto, system-ui, sans-serif;
+  --md-font-mono:    "Roboto Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  /* Type stack */
-  --font-display: 'Fraunces Variable', 'Fraunces', Georgia, serif;
-  --font-body: 'Inter Variable', 'Inter', system-ui, -apple-system, BlinkMacSystemFont,
-    'Segoe UI', sans-serif;
-  --font-utility: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace,
-    SFMono-Regular, Menlo, monospace;
+  /* Shape */
+  --md-shape-xs:  4px;
+  --md-shape-sm:  8px;
+  --md-shape-md:  12px;
+  --md-shape-lg:  16px;
+  --md-shape-xl:  28px;
+  --md-shape-full: 9999px;
 
-  /* Back-compat with global.css */
-  --font-sans: var(--font-body);
-  --font-mono: var(--font-utility);
+  /* ── Semantic aliases (used by all components) ───────────────────────── */
+
+  /* Background / surface */
+  --color-bg:     var(--md-surface);
+  --paper:        var(--md-surface);
+  --paper-deep:   #080609;           /* OLED-er, prefers-contrast:more */
+
+  /* Text */
+  --color-fg:     var(--md-on-surface);
+  --ink:          var(--md-on-surface);
+  --ink-mute:     var(--md-on-surface-variant);
+
+  /* Interactive accent — primary fills the old vermilion/mustard role */
+  --color-accent: var(--md-primary);
+  --mustard:      var(--md-primary);
+  --vermilion:    var(--md-primary);
+  --ledger:       var(--md-on-secondary-container);
+  --highlighter:  color-mix(in oklab, var(--md-primary) 30%, transparent);
+
+  /* Borders */
+  --color-border: var(--md-outline-variant);
+  --rule:         var(--md-outline-variant);
+
+  /* Card / container surfaces */
+  --surface-container:      var(--md-surface-container);
+  --surface-container-high: var(--md-surface-container-high);
+
+  /* Font stack */
+  --font-display: var(--md-font-display);
+  --font-body:    var(--md-font-body);
+  --font-sans:    var(--md-font-body);
+  --font-utility: var(--md-font-mono);
+  --font-mono:    var(--md-font-mono);
 }
 
-/* Force ONE theme — no dark-mode override. */
-@media (prefers-color-scheme: dark) {
-  :root {
-    color-scheme: light;
-    --paper: var(--color-bg);
-    --ink: var(--color-fg);
-  }
+/* ── Dark-first: lock dark scheme, no flicker ──────────────────────────── */
+:root {
+  color-scheme: dark;
 }
+
+/* Light variant — activated only when user explicitly prefers light */
 @media (prefers-color-scheme: light) {
   :root {
     color-scheme: light;
-    --paper: var(--color-bg);
-    --ink: var(--color-fg);
+    --md-surface:                 #FFFBFE;
+    --md-surface-container-low:   #F7F2FA;
+    --md-surface-container:       #F3EDF7;
+    --md-surface-container-high:  #ECE6F0;
+    --md-primary:                 #6750A4;
+    --md-on-surface:              #1C1B1F;
+    --md-on-surface-variant:      #49454F;
+    --md-outline-variant:         #CAC4D0;
+    --md-outline:                 #79747E;
+    --md-secondary-container:     #E8DEF8;
+    --md-on-secondary-container:  #1D192B;
+
+    --color-bg:     var(--md-surface);
+    --paper:        var(--md-surface);
+    --paper-deep:   var(--md-surface-container-low);
+    --color-fg:     var(--md-on-surface);
+    --ink:          var(--md-on-surface);
+    --ink-mute:     var(--md-on-surface-variant);
+    --color-accent: var(--md-primary);
+    --mustard:      var(--md-primary);
+    --vermilion:    var(--md-primary);
+    --ledger:       var(--md-on-secondary-container);
+    --color-border: var(--md-outline-variant);
+    --rule:         var(--md-outline-variant);
   }
 }
 
-html,
-body {
-  background: var(--color-bg);
-  color: var(--color-fg);
-  font-family: var(--font-body);
+/* OLED-er surface on devices that request higher contrast */
+@media (prefers-contrast: more) {
+  :root {
+    --paper: var(--paper-deep);
+  }
 }
 
-/* Default link colour family-wide — vermilion. */
+/* ── Base styles ─────────────────────────────────────────────────────────── */
+html,
+body {
+  background: var(--md-surface);
+  color: var(--md-on-surface);
+  font-family: var(--md-font-body);
+}
+
 a {
-  color: var(--color-accent);
+  color: var(--md-primary);
 }

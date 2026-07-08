@@ -21,9 +21,9 @@
 
 @theme {
   --font-display:
-    'Newsreader', 'GT Sectra', 'Source Serif 4', 'Iowan Old Style', Georgia, serif;
-  --font-sans: 'Inter Tight', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    "Google Sans Display", Roboto, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-sans: "Google Sans Text", Roboto, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: "Roboto Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
   --container-spine: 920px;
 }
@@ -32,33 +32,34 @@
   :root {
     color-scheme: dark;
 
-    /* Rest tokens — visible from first paint. */
-    --paper: #15110d; /* deep ink with warm bias — the leather spine */
-    --paper-deep: #0a0805; /* OLED-er variant, opt in via @media (prefers-contrast: more) */
-    --ink: #e8e2d1; /* bone — body text, masthead, index rows */
-    --ink-mute: #8a8270; /* hairline rules, mono caps, secondary text */
-    --rule: #4a3f2e; /* solid 1px hairline (pre-mixed for opacity-free use) */
+    /* Base tokens — overridden by tokens.css MD3 values (tokens.css loads last). */
+    --paper: #0F0D13;
+    --paper-deep: #080609;
+    --ink: #E6E1E5;
+    --ink-mute: #CAC4D0;
+    --rule: #49454F;
 
-    /* Interactive-only tokens. NEVER apply to elements at rest. */
-    --mustard: #f0dc5a; /* primary accent — category labels + numerals on hover */
-    --vermilion: #c8412b; /* RESERVED: only the .start-arrow + .wordmark strike */
-    --ledger: #6b8f71; /* sub-domain mono strings on hover */
-    --highlighter: #f0dc5a; /* focus-visible 30% bg fill */
+    /* Interactive tokens — also overridden by tokens.css. */
+    --mustard: #D0BCFF;
+    --vermilion: #D0BCFF;
+    --ledger: #E8DEF8;
+    --highlighter: color-mix(in oklab, #D0BCFF 30%, transparent);
   }
 
-  /* Light variant — cream paper, deep ink. Accents stay the same.
-     Activated only when the user explicitly prefers light. */
+  /* Light variant — MD3 light tonal surface. Activated only on prefers-light.
+     Tokens.css overrides these with the full MD3 light palette; this block
+     provides a safe baseline for any component that renders before tokens.css. */
   @media (prefers-color-scheme: light) {
     :root {
       color-scheme: light;
-      --paper: #faf7ee; /* cream (NOT used as primary on this site, but available) */
-      --paper-deep: #f1ecdc;
-      --ink: #15110d;
-      --ink-mute: #5a513f;
-      --rule: #c8bea7;
-      --mustard: #b89a1d; /* darkened for contrast on cream */
-      --vermilion: #b6371f;
-      --ledger: #2d4a3e;
+      --paper: #FFFBFE;
+      --paper-deep: #F7F2FA;
+      --ink: #1C1B1F;
+      --ink-mute: #49454F;
+      --rule: #CAC4D0;
+      --mustard: #6750A4;
+      --vermilion: #6750A4;
+      --ledger: #1D192B;
     }
   }
 
@@ -287,12 +288,12 @@
  */
 body.home-bare {
   color-scheme: light;
-  --paper: #ffffff;
-  --paper-deep: #fafafa;
-  --ink: #1a1a1a;
-  --ink-mute: #666666;
-  --rule: #e6e6e6;
-  --accent: #1a73e8; /* single link accent — abc.xyz uses Google blue */
+  --paper: #FFFBFE;
+  --paper-deep: #F7F2FA;
+  --ink: #1C1B1F;
+  --ink-mute: #49454F;
+  --rule: #CAC4D0;
+  --accent: #6750A4; /* MD3 primary on light */
 
   background: var(--paper);
   color: var(--ink);
