@@ -76,10 +76,10 @@
   --font-sans:    var(--md-font-body);
   --font-utility: var(--md-font-mono);
   --font-mono:    var(--md-font-mono);
-}
 
-/* ── Dark-first: lock dark scheme, no flicker ──────────────────────────── */
-:root {
+  /* Extra aliases so ALL pages share MD3 dark tokens */
+  --bg:            var(--md-surface);
+  --ink-secondary: var(--md-on-surface-variant);
   color-scheme: dark;
 }
 
