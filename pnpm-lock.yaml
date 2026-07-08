@@ -14,6 +14,9 @@ importers:
       '@astrojs/sitemap':
         specifier: ^3.2.0
         version: 3.7.3
+      '@chirag127/astro-analytics':
+        specifier: file:../../pkg/astro-analytics
+        version: file:../../pkg/astro-analytics(astro@6.4.8(@types/node@26.1.0)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.62.0)(yaml@2.9.0))
       '@chirag127/astro-billing':
         specifier: ^0.1.1
         version: 0.1.2(astro@6.4.8(@types/node@26.1.0)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.62.0)(yaml@2.9.0))
@@ -23,6 +26,9 @@ importers:
       '@chirag127/astro-data':
         specifier: ^0.1.1
         version: 0.1.1
+      '@chirag127/astro-seo':
+        specifier: file:../../pkg/astro-seo
+        version: file:../../pkg/astro-seo
       '@chirag127/astro-shell':
         specifier: ^0.2.3
         version: 0.2.3(@astrojs/mdx@4.3.14(astro@6.4.8(@types/node@26.1.0)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.62.0)(yaml@2.9.0)))(@astrojs/react@5.0.7(@types/node@26.1.0)(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(jiti@2.7.0)(lightningcss@1.32.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(yaml@2.9.0))(@astrojs/sitemap@3.7.3)(@tailwindcss/vite@4.3.1(vite@7.3.5(@types/node@26.1.0)(jiti@2.7.0)(lightningcss@1.32.0)(yaml@2.9.0)))(astro@6.4.8(@types/node@26.1.0)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.62.0)(yaml@2.9.0))
@@ -328,6 +334,11 @@ packages:
     resolution: {integrity: sha512-CuNiSqg7+e1cO/GjffyMOm5Tt2jUF9CWHHnvQ/UkqvtkGfHdgwEC0wpmq7fkN3gxwpRnrAN0WzO3vREKmNolMQ==}
     engines: {node: '>=18'}
 
+  '@chirag127/astro-analytics@file:../../pkg/astro-analytics':
+    resolution: {directory: ../../pkg/astro-analytics, type: directory}
+    peerDependencies:
+      astro: '>=2.0.0'
+
   '@chirag127/astro-billing@0.1.2':
     resolution: {integrity: sha512-l6VG1oQlBHG2jkwYrtbD9F7neYx6j72XeH/Tro62BW6op02s9e5u5T9asPcJEphsgJqlLG8wxcouZ6ysiUD21g==}
     peerDependencies:
@@ -343,6 +354,9 @@ packages:
 
   '@chirag127/astro-data@0.1.1':
     resolution: {integrity: sha512-DcZz7fl9M9dQhFOGcLflFIVnC9ijQy1j5d9z1YDfWsfBS9Z1hZT/2kukyIgzl3iO8siTGtAEbZH0N0edSiZfQw==}
+
+  '@chirag127/astro-seo@file:../../pkg/astro-seo':
+    resolution: {directory: ../../pkg/astro-seo, type: directory}
 
   '@chirag127/astro-shell@0.2.3':
     resolution: {integrity: sha512-w0mWTrIwIHctVg4MPat0A5UwwjYq0CWH4R4P1j0ssvd2GwHcA4bV5XwzcED0FOKV0jvA2qFOlm12gmOEOUHG5w==}
@@ -4493,6 +4507,10 @@ snapshots:
     dependencies:
       fontkitten: 1.0.3
 
+  '@chirag127/astro-analytics@file:../../pkg/astro-analytics(astro@6.4.8(@types/node@26.1.0)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.62.0)(yaml@2.9.0))':
+    dependencies:
+      astro: 6.4.8(@types/node@26.1.0)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.62.0)(yaml@2.9.0)
+
   '@chirag127/astro-billing@0.1.2(astro@6.4.8(@types/node@26.1.0)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.62.0)(yaml@2.9.0))':
     dependencies:
       astro: 6.4.8(@types/node@26.1.0)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.62.0)(yaml@2.9.0)
@@ -4511,6 +4529,8 @@ snapshots:
       react: 19.2.7
 
   '@chirag127/astro-data@0.1.1': {}
+
+  '@chirag127/astro-seo@file:../../pkg/astro-seo': {}
 
   '@chirag127/astro-shell@0.2.3(@astrojs/mdx@4.3.14(astro@6.4.8(@types/node@26.1.0)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.62.0)(yaml@2.9.0)))(@astrojs/react@5.0.7(@types/node@26.1.0)(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(jiti@2.7.0)(lightningcss@1.32.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(yaml@2.9.0))(@astrojs/sitemap@3.7.3)(@tailwindcss/vite@4.3.1(vite@7.3.5(@types/node@26.1.0)(jiti@2.7.0)(lightningcss@1.32.0)(yaml@2.9.0)))(astro@6.4.8(@types/node@26.1.0)(jiti@2.7.0)(lightningcss@1.32.0)(rollup@4.62.0)(yaml@2.9.0))':
     dependencies:

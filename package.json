@@ -23,7 +23,9 @@
   "dependencies": {
     "@astrojs/react": "^5.0.5",
     "@astrojs/sitemap": "^3.2.0",
+    "@chirag127/astro-analytics": "workspace:*",
     "@chirag127/astro-chrome": "^0.1.7",
+    "@chirag127/astro-seo": "workspace:*",
     "@chirag127/astro-billing": "^0.1.1",
     "@chirag127/astro-data": "^0.1.1",
     "@chirag127/astro-shell": "^0.2.3",
