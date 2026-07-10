@@ -1,15 +1,15 @@
 /*
- * apps.ts — single source of truth for every app in the oriz family.
+ * apps.ts — single source of truth for every app in the chirag127 family.
  *
  * Rewritten 2026-06-25 per fleet scope-cut (Phase B + same-day Phase A reversal):
- *   - 11 saturated apps removed earlier (archived to oriz-archive org):
+ *   - 11 saturated apps removed earlier (archived to archive org):
  *     slice-pdf, pixie-image, reel-video, echo-audio, scribe-text, grid-qr,
  *     shift-convert, dice-random, rank-seo, pivot-data, paper-print.
  *   - 8 additional scaffold apps archived 2026-06-25 PM under the repo-level
  *     build-gate (see knowledge/decisions/architecture/fleet/scope-cut-2026-06-25.md):
- *     cards, finance, health, packages, tools, oriz-cipher-crypto-tools-app,
- *     oriz-forge-dev-tools-app, oriz-omni-post-app.
- *   - Repo slugs migrated chirag127/oriz-* → chirag127/<short-slug> (Phase D).
+ *     cards, finance, health, packages, tools, cipher-crypto-tools-app,
+ *     forge-dev-tools-app, omni-post-app.
+ *   - Repo slugs migrated chirag127/* → chirag127/<short-slug> (Phase D).
  *
  * Static metadata (slug / brand / one-liner / category / subdomain / repo /
  * status / packages) is hand-curated here. Native-distribution channels
@@ -74,8 +74,8 @@ export interface AppMeta {
 /*
  * STATIC APP LIST — 6 active apps after 2026-06-25 scope-cut.
  *   1 personal (me)
- *   4 content (blog, journal, oriz-janaushdhi-app, oriz-lore-app)
- *   1 content/reference (oriz-ncert-app)
+ *   4 content (blog, journal, janaushdhi-app, lore-app)
+ *   1 content/reference (ncert-app)
  *
  *   Hub apps (home, formerly auth + status) DON'T appear in this catalog
  *   because home itself renders the catalog. auth + status were archived
@@ -83,7 +83,7 @@ export interface AppMeta {
  *
  *   Every app below has shipping content today — the repo-level build-gate
  *   bar. Apps cut: cards, finance, health, packages, tools,
- *   oriz-cipher-crypto-tools-app, oriz-forge-dev-tools-app, oriz-omni-post-app.
+ *   cipher-crypto-tools-app, forge-dev-tools-app, omni-post-app.
  */
 const APPS_STATIC: AppMeta[] = [
   // ── Personal (1) ─────────────────────────────────────────────────────
@@ -92,50 +92,50 @@ const APPS_STATIC: AppMeta[] = [
     brand: 'CS',
     oneLine: "Chirag Singhal's personal site — hero, now, uses, CV, contact.",
     category: 'personal',
-    subdomain: 'https://me.oriz.in',
+    subdomain: 'https://oriz.in/me',
     repo: 'chirag127/me',
     status: 'production',
-    channels: { web: 'https://me.oriz.in' },
+    channels: { web: 'https://oriz.in/me' },
   },
 
   // ── Content (5) ──────────────────────────────────────────────────────
   {
-    slug: 'oriz-janaushdhi-app',
+    slug: 'janaushdhi-app',
     brand: 'Janaushdhi',
     oneLine:
       'Read-only catalog of the PMBJP generic medicine list — search, filter, compare prices, locate the nearest Kendra.',
     category: 'content',
     subdomain: 'https://janaushdhi.oriz.in',
-    repo: 'chirag127/oriz-janaushdhi-app',
+    repo: 'chirag127/janaushdhi-app',
     status: 'scaffold',
     channels: { web: 'https://janaushdhi.oriz.in' },
   },
   {
-    slug: 'oriz-lore-app',
+    slug: 'lore-app',
     brand: 'Lore',
     oneLine:
       'Free, ad-supported library of structured book summaries — overview, content map, critical analysis, narration script.',
     category: 'content',
     subdomain: 'https://book-lore.oriz.in',
-    repo: 'chirag127/oriz-lore-app',
+    repo: 'chirag127/lore-app',
     status: 'production',
     channels: { web: 'https://book-lore.oriz.in' },
   },
   {
-    slug: 'oriz-ncert-app',
+    slug: 'ncert-app',
     brand: 'NCERT',
     oneLine:
       'Free NCERT textbook directory — browse, search, and download every NCERT book by class, subject, and language.',
     category: 'content',
     subdomain: 'https://books.oriz.in',
-    repo: 'chirag127/oriz-ncert-app',
+    repo: 'chirag127/ncert-app',
     status: 'production',
     channels: { web: 'https://books.oriz.in' },
   },
   {
     slug: 'blog',
     brand: 'Pages',
-    oneLine: 'Long-form writing on engineering, finance, and books — the blog of the oriz family.',
+    oneLine: 'Long-form writing on engineering, finance, and books — the blog of the chirag127 family.',
     category: 'content',
     subdomain: 'https://blog.oriz.in',
     repo: 'chirag127/blog',
@@ -197,9 +197,9 @@ export function appsByCategory(): Record<AppCategory, AppMeta[]> {
   return grouped
 }
 
-/** Slug for cross-link to packages.oriz.in docs. Drops `oriz-` prefix and `-app` suffix. */
+/** Slug for cross-link to packages.oriz.in docs. Drops `` prefix and `-app` suffix. */
 export function appDocsSlug(app: AppMeta): string {
-  return app.slug.replace(/^oriz-/, '').replace(/-app$/, '')
+  return app.slug.replace(/^/, '').replace(/-app$/, '')
 }
 
 /** Cross-link URL to the app's full docs on packages.oriz.in. */

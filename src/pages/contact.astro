@@ -3,8 +3,8 @@
  * /contact — Web3Forms-backed static form. No JS island; the form posts
  * directly to api.web3forms.com.
  *
- * Markup uses the `[data-oriz-contact-*]` selector hooks so the same
- * overrides CSS in src/styles/oriz-ui-overrides.css styles both this
+ * Markup uses the `[data-chirag127ntact-*]` selector hooks so the same
+ * overrides CSS in src/styles/ui-overrides.css styles both this
  * static form and any future dynamic ContactForm island. Sister sites
  * can swap to the React ContactForm component without rewriting their CSS.
  */
@@ -14,13 +14,13 @@ const web3formsKey = import.meta.env.PUBLIC_WEB3FORMS_KEY ?? ''
 ---
 
 <BaseLayout
-  title="Contact — oriz"
+  title="Contact — chirag127"
   description="Get in touch about anything on oriz.in."
   wordmarkSubtitle="contact"
   sidebar={false}
 >
   <header class="spine page-head">
-    <p class="eyebrow"><a href="/">oriz</a> / contact</p>
+    <p class="eyebrow"><a href="/">chirag127</a> / contact</p>
     <h1>Contact</h1>
     <p class="lede">
       Email is fastest: <a href="mailto:whyiswhen@gmail.com">whyiswhen@gmail.com</a>.
@@ -37,37 +37,37 @@ const web3formsKey = import.meta.env.PUBLIC_WEB3FORMS_KEY ?? ''
     <form
       action="https://api.web3forms.com/submit"
       method="POST"
-      data-oriz-contact
-      data-oriz-contact-status="idle"
+      data-chirag127ntact
+      data-chirag127ntact-status="idle"
     >
       <input type="hidden" name="access_key" value={web3formsKey} />
       <input type="hidden" name="from_name" value="oriz.in contact form" />
       <input
         type="text"
         name="botcheck"
-        data-oriz-contact-honeypot
+        data-chirag127ntact-honeypot
         tabindex="-1"
         autocomplete="off"
       />
 
-      <label data-oriz-contact-field="name">
+      <label data-chirag127ntact-field="name">
         <span>Your name</span>
         <input type="text" name="name" required autocomplete="name" />
       </label>
-      <label data-oriz-contact-field="email">
+      <label data-chirag127ntact-field="email">
         <span>Email</span>
         <input type="email" name="email" required autocomplete="email" />
       </label>
-      <label data-oriz-contact-field="subject">
+      <label data-chirag127ntact-field="subject">
         <span>Subject</span>
         <input type="text" name="subject" required />
       </label>
-      <label data-oriz-contact-field="message">
+      <label data-chirag127ntact-field="message">
         <span>Message</span>
         <textarea name="message" rows="6" required></textarea>
       </label>
 
-      <button type="submit" data-oriz-contact-submit>Send</button>
+      <button type="submit" data-chirag127ntact-submit>Send</button>
     </form>
 
     <p class="meta">

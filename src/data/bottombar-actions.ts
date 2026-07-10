@@ -10,5 +10,5 @@ export const bottomBarActions: BottomBarAction[] = [
   { icon: '⊞', label: 'Apps', href: '/apps/' },
   { icon: '✦', label: 'Tools', href: '/tools/' },
   { icon: '⌕', label: 'Search', href: '/#oriz-search' },
-  { icon: '◐', label: 'Me', href: 'https://me.oriz.in/' },
+  { icon: '◐', label: 'Me', href: '/me' },
 ]

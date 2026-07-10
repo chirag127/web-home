@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>oriz</title>
+  <title>chirag127</title>
   <subtitle>A family of small, free, static sites by Chirag Singhal.</subtitle>
   <link href="https://oriz.in/atom.xml" rel="self" />
   <link href="https://oriz.in" />
@@ -8,15 +8,15 @@
   <updated>2026-06-20T00:00:00Z</updated>
   <author>
     <name>Chirag Singhal</name>
-    <uri>https://me.oriz.in</uri>
+    <uri>https://oriz.in/me</uri>
   </author>
 
   <!-- Placeholder feed; see knowledge/decisions/architecture/feeds-rss-atom-json.md. -->
   <entry>
-    <title>oriz launches: a family of small, free, static sites</title>
+    <title>chirag127 launches: a family of small, free, static sites</title>
     <link href="https://oriz.in" />
     <id>https://oriz.in</id>
     <updated>2026-06-20T00:00:00Z</updated>
-    <summary>The oriz family hub goes live. 11 sub-sites covering reading, writing, tools, finance, and personal.</summary>
+    <summary>The chirag127 family hub goes live. 11 sub-sites covering reading, writing, tools, finance, and personal.</summary>
   </entry>
 </feed>
