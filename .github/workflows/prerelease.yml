@@ -1,0 +1,49 @@
+# Prerelease — on push to main, build the site and attach the dist tarball to
+# a deterministic prerelease. Deploy is handled separately by deploy.yml
+# (dispatch to the workspace umbrella). This workflow only cuts releases.
+name: prerelease
+
+on:
+  push:
+    branches: [main]
+    tags-ignore: ['**'] # guard against recursion from the tag we create
+
+concurrency:
+  group: prerelease-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  prerelease:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 10.34.3
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --ignore-workspace --no-frozen-lockfile
+      - run: pnpm build
+
+      - name: Compute tag
+        id: tag
+        run: |
+          echo "tag=prerelease-$(date -u +%Y%m%d)-$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Package dist
+        run: tar -czf "home-dist-${{ steps.tag.outputs.tag }}.tar.gz" -C dist .
+
+      - name: Release
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: ${{ steps.tag.outputs.tag }}
+          prerelease: true
+          files: home-dist-${{ steps.tag.outputs.tag }}.tar.gz

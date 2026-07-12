@@ -1,4 +1,4 @@
-import type { BottomBarAction } from '@chirag127/astro-chrome/BottomBar.astro'
+import type { BottomBarAction } from '~/components/chrome/BottomBar.astro'
 
 /*
  * BottomBar actions — v0 locked design 2026-06-22.

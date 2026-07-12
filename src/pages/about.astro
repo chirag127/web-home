@@ -10,7 +10,7 @@ import BaseLayout from '~/layouts/BaseLayout.astro'
 const PRINCIPLES = [
   {
     title: 'Static first',
-    body: 'Every site is a static build. No backend to scale, no server to pay for, no 3am page. Where state is needed it talks to Firebase from the browser, on the free tier.',
+    body: 'Every site is a static build. No backend to scale, no server to pay for, no 3am page. Everything that can run in your browser does.',
   },
   {
     title: 'Privacy by default',
@@ -26,7 +26,7 @@ const PRINCIPLES = [
   },
   {
     title: 'Small surface',
-    body: 'Eleven small sites, each with one job. The shared sign-in works across them. The shared design system means you only learn the controls once.',
+    body: 'A handful of small sites, each with one job. The shared design system means you only learn the controls once.',
   },
   {
     title: 'Long horizon',
@@ -84,13 +84,12 @@ const jsonLd = {
     <h2>What is chirag127</h2>
     <p>
       <strong>chirag127</strong> is the umbrella for everything I publish — a family of static sites that
-      share a sign-in, a design system, and a single principle:{' '}
+      share a design system and a single principle:{' '}
       <em>useful, free, and quiet</em>. Each site is its own GitHub repository, stitched together
       through{' '}
       <a href="https://github.com/chirag127/chirag127">chirag127/chirag127</a>, a hub that holds them as git
-      submodules. Hosting is split between Cloudflare (for static reading sites) and Firebase (for
-      app-like sites with auth and a database). Display ads on a few of them cover the domain
-      renewal.
+      submodules. Everything is hosted on Cloudflare as fully-public static sites — no accounts, no
+      backend. Donations cover the domain renewal.
     </p>
 
     <h2>Seven principles</h2>

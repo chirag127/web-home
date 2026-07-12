@@ -1,0 +1,53 @@
+---
+/*
+ * BottomBar — inlined mobile bottom nav (formerly @chirag127/astro-chrome).
+ * Fixed bar, mobile-only. Actions passed as { icon, label, href }[].
+ */
+export interface BottomBarAction {
+  icon: string
+  label: string
+  href: string
+}
+interface Props {
+  actions: BottomBarAction[]
+}
+const { actions } = Astro.props
+---
+<nav class="bb" aria-label="Quick navigation">
+  {actions.map((a) => (
+    <a class="bb-item" href={a.href}>
+      <span class="bb-icon" aria-hidden="true">{a.icon}</span>
+      <span class="bb-label">{a.label}</span>
+    </a>
+  ))}
+</nav>
+
+<style>
+  .bb { display: none; }
+  @media (max-width: 767px) {
+    .bb {
+      display: flex;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      background: var(--color-bg, var(--paper));
+      border-top: 1px solid var(--color-border, var(--rule));
+      padding: 4px 0 env(safe-area-inset-bottom);
+    }
+    .bb-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      padding: 6px 2px;
+      color: var(--color-fg, var(--ink));
+      text-decoration: none;
+      font-size: 0.625rem;
+    }
+    .bb-icon { font-size: 1.125rem; line-height: 1; }
+    .bb-item:hover { color: var(--color-accent, var(--mustard)); }
+  }
+</style>

@@ -1,0 +1,109 @@
+# Package installable app artifacts and attach them to the prerelease.
+# Android: TWA via Bubblewrap (unsigned AAB/APK). Windows: Tauri NSIS/MSI
+# (unsigned). Both target https://home.oriz.in. No signing keys are generated
+# or committed — artifacts are UNSIGNED. Signing is a manual release step.
+name: package
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  APP_URL: https://home.oriz.in
+
+jobs:
+  android-twa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+
+      - name: Install Bubblewrap
+        run: npm i -g @bubblewrap/cli@1.24.1
+
+      - name: Init TWA from manifest
+        run: |
+          mkdir -p twa && cd twa
+          bubblewrap init --manifest "${APP_URL}/manifest.webmanifest" --directory . <<'EOF'
+          EOF
+        continue-on-error: true
+
+      - name: Build unsigned APK/AAB
+        working-directory: twa
+        run: bubblewrap build --skipPwaValidation || true
+        continue-on-error: true
+
+      - name: Collect artifacts
+        id: collect
+        run: |
+          shopt -s nullglob
+          mkdir -p out
+          for f in twa/*.apk twa/*.aab twa/app/build/outputs/**/*.apk twa/app/build/outputs/**/*.aab; do
+            cp "$f" out/ 2>/dev/null || true
+          done
+          echo "count=$(ls out | wc -l)" >> "$GITHUB_OUTPUT"
+
+      - name: Attach to release
+        if: github.event_name == 'release' && steps.collect.outputs.count != '0'
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: ${{ github.event.release.tag_name }}
+          files: out/*
+
+  windows-tauri:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+
+      - name: Scaffold Tauri wrapper (loads ${{ env.APP_URL }})
+        shell: bash
+        run: |
+          mkdir -p src-tauri/icons
+          cp public/icons/icon-512.png src-tauri/icons/icon.png || true
+          cat > src-tauri/tauri.conf.json <<'JSON'
+          {
+            "productName": "Oriz",
+            "version": "0.0.1",
+            "identifier": "in.oriz.home",
+            "build": { "frontendDist": "https://home.oriz.in" },
+            "app": {
+              "windows": [{ "title": "Oriz", "width": 1200, "height": 800 }]
+            },
+            "bundle": {
+              "active": true,
+              "targets": ["nsis", "msi"],
+              "icon": ["icons/icon.png"]
+            }
+          }
+          JSON
+
+      - name: Build unsigned NSIS/MSI
+        uses: tauri-apps/tauri-action@action-v1.0.0
+        with:
+          projectPath: .
+        continue-on-error: true
+
+      - name: Attach to release
+        if: github.event_name == 'release'
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: ${{ github.event.release.tag_name }}
+          files: |
+            src-tauri/target/release/bundle/nsis/*.exe
+            src-tauri/target/release/bundle/msi/*.msi

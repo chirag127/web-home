@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="oriz">
+  <rect width="512" height="512" rx="96" fill="#0F0D13"/>
+  <text x="50%" y="50%" dy="0.06em" text-anchor="middle" dominant-baseline="middle"
+    font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="300"
+    fill="#E6E1E5" letter-spacing="-8">oz</text>
+  <line x1="150" y1="256" x2="362" y2="256" stroke="#D0BCFF" stroke-width="22" stroke-linecap="round"/>
+</svg>

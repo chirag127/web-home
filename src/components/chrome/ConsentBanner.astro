@@ -1,0 +1,57 @@
+---
+/*
+ * ConsentBanner — inlined cookie/analytics notice (formerly @chirag127/astro-chrome).
+ * Cookieless analytics used family-wide, so this is a one-time dismissable
+ * notice persisted in localStorage. No tracking toggles.
+ */
+---
+<div id="oriz-consent" class="consent" hidden>
+  <p>
+    Oriz uses privacy-first, cookieless analytics. No personal data, no ads.
+    See <a href="/privacy/">privacy</a>.
+  </p>
+  <button type="button" data-consent-dismiss aria-label="Dismiss">Got it</button>
+</div>
+
+<style>
+  .consent {
+    position: fixed;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 70;
+    max-width: min(640px, calc(100vw - 2rem));
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    background: var(--surface-container, var(--color-bg));
+    border: 1px solid var(--color-border, var(--rule));
+    border-radius: var(--md-shape-md, 12px);
+    font-size: 0.8125rem;
+    color: var(--color-fg, var(--ink));
+    box-shadow: 0 6px 24px rgb(0 0 0 / 0.3);
+  }
+  .consent p { margin: 0; }
+  .consent button {
+    flex: 0 0 auto;
+    padding: 0.375rem 0.875rem;
+    background: var(--color-accent, var(--mustard));
+    color: var(--color-bg, var(--paper));
+    border: 0;
+    border-radius: var(--md-shape-full, 999px);
+    font: inherit;
+    cursor: pointer;
+  }
+  @media (max-width: 767px) { .consent { bottom: 72px; } }
+</style>
+
+<script>
+  const KEY = 'oriz-consent-dismissed'
+  const el = document.getElementById('oriz-consent')
+  if (el && !localStorage.getItem(KEY)) el.hidden = false
+  el?.querySelector('[data-consent-dismiss]')?.addEventListener('click', () => {
+    localStorage.setItem(KEY, '1')
+    el.hidden = true
+  })
+</script>

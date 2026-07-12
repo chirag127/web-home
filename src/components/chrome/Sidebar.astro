@@ -1,0 +1,39 @@
+---
+/*
+ * Sidebar — inlined desktop family-nav rail (formerly @chirag127/astro-chrome).
+ * Renders the passed slot content inside a sticky left column. A hidden
+ * checkbox (#sb-toggle) lets the Header burger toggle a mobile drawer.
+ */
+---
+<input type="checkbox" id="sb-toggle" class="sb-toggle" hidden />
+<aside class="sb" aria-label="Family navigation">
+  <div class="sb-inner"><slot /></div>
+</aside>
+
+<style>
+  .sb {
+    flex: 0 0 220px;
+    max-width: 220px;
+    padding: 1.25rem 0.75rem;
+    border-right: 1px solid var(--color-border, var(--rule));
+    position: sticky;
+    top: 64px;
+    align-self: flex-start;
+    max-height: calc(100dvh - 64px);
+    overflow-y: auto;
+  }
+  @media (max-width: 767px) {
+    .sb {
+      position: fixed;
+      inset: 0 auto 0 0;
+      z-index: 60;
+      width: 80vw;
+      max-width: 300px;
+      background: var(--color-bg, var(--paper));
+      transform: translateX(-100%);
+      transition: transform 0.2s ease;
+      border-right: 1px solid var(--color-border, var(--rule));
+    }
+    .sb-toggle:checked ~ .sb { transform: translateX(0); }
+  }
+</style>

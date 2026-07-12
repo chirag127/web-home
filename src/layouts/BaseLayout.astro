@@ -13,13 +13,12 @@
  */
 import '~/styles/global.css'
 import '~/styles/oriz-ui-overrides.css'
-import '@chirag127/astro-shell/tokens.css'
 import '~/styles/tokens.css'
 import Analytics from '../components/Analytics.astro'
 import SEO from '../components/SEO.astro'
-import BottomBar from '@chirag127/astro-chrome/BottomBar.astro'
-import ConsentBanner from '@chirag127/astro-chrome/ConsentBanner.astro'
-import Sidebar from '@chirag127/astro-chrome/Sidebar.astro'
+import BottomBar from '~/components/chrome/BottomBar.astro'
+import ConsentBanner from '~/components/chrome/ConsentBanner.astro'
+import Sidebar from '~/components/chrome/Sidebar.astro'
 import AppSidebarContent from '~/components/AppSidebarContent.astro'
 import Footer from '~/components/Footer.astro'
 import Header from '~/components/Header.astro'
@@ -127,6 +126,13 @@ const cfAnalyticsEnabled = import.meta.env.PUBLIC_ENABLE_CF_ANALYTICS === 'true'
       <main id="main"><slot /></main>
     )}
     <ConsentBanner />
+    <script is:inline>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch(() => {})
+        })
+      }
+    </script>
   </body>
 </html>
 

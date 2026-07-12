@@ -89,23 +89,7 @@ const PACKAGES: Pkg[] = [
     group: 'ui',
   },
 
-  // ── Data & auth ─────────────────────────────────────────────────────
-  {
-    brand: 'auth',
-    slug: 'auth',
-    npmName: '@chirag127/auth',
-    repo: 'chirag127/auth-npm-pkg',
-    oneLine: 'Firebase Auth wrapper with email-link sign-in + cross-subdomain SSO.',
-    group: 'data',
-  },
-  {
-    brand: 'firestore',
-    slug: 'firestore',
-    npmName: '@chirag127/firestore',
-    repo: 'chirag127/firestore-npm-pkg',
-    oneLine: 'Typed Firestore collection helpers + offline-first sync.',
-    group: 'data',
-  },
+  // ── Data ────────────────────────────────────────────────────────────
   {
     brand: 'feeds',
     slug: 'feeds',
@@ -171,7 +155,7 @@ const PACKAGES: Pkg[] = [
 const GROUPS: { id: PkgGroup; label: string }[] = [
   { id: 'astro', label: 'Astro foundation' },
   { id: 'ui', label: 'UI & widgets' },
-  { id: 'data', label: 'Data & auth' },
+  { id: 'data', label: 'Data' },
   { id: 'dist', label: 'Distribution' },
   { id: 'testing', label: 'Testing' },
 ]
@@ -185,7 +169,7 @@ const GROUPS: { id: PkgGroup; label: string }[] = [
   <article class="page spine">
     <h1 class="page-title">Packages</h1>
     <p class="page-lede">
-      The npm packages that power the family — 16 in total, grouped by
+      The npm packages that power the family, grouped by
       purpose. Every card links to the full docs at packages.oriz.in.
     </p>
 

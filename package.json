@@ -1,5 +1,5 @@
 {
-  "name": "@chirag127/oriz-home",
+  "name": "home",
   "version": "0.0.1",
   "private": true,
   "type": "module",
@@ -18,33 +18,28 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "gen:icons": "node scripts/gen-icons.mjs"
   },
   "dependencies": {
-    "@astrojs/react": "^5.0.5",
-    "@astrojs/sitemap": "^3.2.0",
-    "@chirag127/astro-chrome": "^0.1.7",
-    "@chirag127/astro-billing": "^0.1.1",
-    "@chirag127/astro-data": "^0.1.1",
-    "@chirag127/astro-shell": "^0.2.3",
-    "@chirag127/oriz-ui": "^0.1.0",
+    "@astrojs/react": "^5.0.7",
+    "@astrojs/sitemap": "^3.7.3",
     "@fontsource-variable/fraunces": "^5.2.9",
     "@fontsource-variable/inter": "^5.2.8",
     "@fontsource-variable/jetbrains-mono": "^5.2.8",
-    "@tailwindcss/vite": "^4.3.1",
-    "astro": "^6.4.7",
-    "firebase": "^12.0.0",
+    "@tailwindcss/vite": "^4.3.2",
+    "@vite-pwa/astro": "^1.2.0",
+    "astro": "^6.4.8",
     "lucide-react": "^0.510.0",
     "motion": "^12.40.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "rss-parser": "^3.13.0",
-    "tailwindcss": "^4.3.1"
+    "tailwindcss": "^4.3.2"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.0",
     "@biomejs/biome": "^2.4.8",
-    "@chirag127/astro-test-utils": "^0.1.1",
     "@playwright/test": "^1.48.0",
     "@types/node": "^26.1.0",
     "@types/react": "^19.0.0",
@@ -52,6 +47,7 @@
     "@vitest/coverage-v8": "^2.0.0",
     "@vitest/ui": "^2.0.0",
     "happy-dom": "^15.0.0",
+    "sharp": "^0.35.3",
     "typescript": "^6.0.3",
     "vitest": "^2.0.0",
     "wrangler": "^4.102.0"

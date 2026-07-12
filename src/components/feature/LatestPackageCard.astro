@@ -1,19 +1,16 @@
 ---
 /*
- * LatestPackageCard — top-1 from @chirag127/* npm packages.
+ * LatestPackageCard — top-1 from the family npm packages.
  *
- * Reads from the dynamic family-data registry (@chirag127/astro-shell/family-data),
- * picks the highest-version astro-shell entry by default (the foundation
- * package), and renders the card. Updating the package version anywhere
- * in the family auto-flows here via the daily discover-family cron +
- * Renovate dep bump.
+ * Reads from the inlined family registry (~/lib/family), picks the
+ * astro-analytics entry by default, and renders the card.
  */
-import { FAMILY_PACKAGES, type FamilyPackage } from '@chirag127/astro-shell/family-data'
+import { FAMILY_PACKAGES, type FamilyPackage } from '~/lib/family'
 
-/* Pick astro-shell as the headline; fall back to the first astro-category entry. */
+/* Pick astro-analytics as the headline; fall back to the first astro-category entry. */
 function pickHeadline(): FamilyPackage {
   return (
-    FAMILY_PACKAGES.find((p) => p.slug === 'astro-shell') ??
+    FAMILY_PACKAGES.find((p) => p.slug === 'astro-analytics') ??
     FAMILY_PACKAGES.find((p) => p.category === 'astro') ??
     FAMILY_PACKAGES[0]
   )

@@ -74,10 +74,8 @@ const privacyJsonLd = {
     </p>
     <ul>
       <li>
-        <strong>Necessary</strong> — Firebase Auth session if you sign in,
-        CSRF tokens, and a per-incident dismissal flag for the status banner.
-        These never leave your device except as part of the requested
-        operation (e.g. signing in).
+        <strong>Necessary</strong> — a per-incident dismissal flag for the
+        privacy notice. Stays on your device; never sent anywhere.
       </li>
       <li>
         <strong>Edge / cookie-less analytics</strong> — Cloudflare Web
@@ -96,9 +94,7 @@ const privacyJsonLd = {
       </li>
       <li>
         <strong>Marketing</strong> — UTM persistence cookie (only set after
-        consent in EU/UK or after CCPA opt-out window in US/CA), Razorpay
-        cart UUID on the support page during the few seconds you interact
-        with their iframe.
+        consent in EU/UK or after CCPA opt-out window in US/CA).
       </li>
       <li>
         <strong>Functional</strong> — theme / language / font-size
@@ -121,11 +117,6 @@ const privacyJsonLd = {
       <li>
         <strong>Cloudflare</strong> (US + global edge) — static asset hosting,
         Web Analytics aggregates, security (Turnstile, WAF).
-      </li>
-      <li>
-        <strong>Firebase</strong> (US, asia-south1) — auth, Firestore for the
-        few surfaces that need it (cards, journal-server-side metadata),
-        FCM tokens for opt-in push.
       </li>
       <li>
         <strong>Google Analytics 4</strong> (US/EU) — anonymised funnel data.
@@ -151,14 +142,12 @@ const privacyJsonLd = {
 
     <h2>How long we keep it</h2>
     <ul>
-      <li>Authenticated session cookies — until you sign out, max 30 days idle.</li>
+      <li>Authenticated session cookies — not applicable; the family has no accounts.</li>
       <li>Cloudflare Web Analytics — 6 months (Cloudflare default).</li>
       <li>GA4 — 14 months (we set the minimum allowed).</li>
       <li>PostHog — 1 year (free-tier default).</li>
       <li>Clarity — 30 days for replays, 1 year for aggregates.</li>
       <li>Sentry — 30 days.</li>
-      <li>Server-side data (Firestore docs you create) — until you delete
-        the surface or your account.</li>
     </ul>
 
     <h2>Cookies + consent</h2>
