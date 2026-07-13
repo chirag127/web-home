@@ -30,7 +30,7 @@
     "@tailwindcss/vite": "^4.3.2",
     "@vite-pwa/astro": "^1.2.0",
     "astro": "^6.4.8",
-    "lucide-react": "^0.510.0",
+    "lucide-react": "^1.24.0",
     "motion": "^12.40.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
