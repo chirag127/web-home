@@ -9,7 +9,16 @@ interface Props {
   noindex?: boolean
   jsonLd?: Record<string, unknown>
 }
-const { title, description='', canonical='', ogImage='', ogType='website', twitterHandle='', noindex=false, jsonLd } = Astro.props
+const {
+  title,
+  description = '',
+  canonical = '',
+  ogImage = '',
+  ogType = 'website',
+  twitterHandle = '',
+  noindex = false,
+  jsonLd,
+} = Astro.props
 ---
 <title>{title}</title>
 {description && <meta name="description" content={description} />}

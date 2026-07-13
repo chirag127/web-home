@@ -7,3 +7,7 @@ dist
 .env.example.lock
 *.log
 .cache
+
+# Playwright
+playwright-report/
+test-results/

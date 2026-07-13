@@ -135,7 +135,8 @@ const APPS_STATIC: AppMeta[] = [
   {
     slug: 'blog',
     brand: 'Pages',
-    oneLine: 'Long-form writing on engineering, finance, and books — the blog of the chirag127 family.',
+    oneLine:
+      'Long-form writing on engineering, finance, and books — the blog of the chirag127 family.',
     category: 'content',
     subdomain: 'https://blog.oriz.in',
     repo: 'chirag127/blog',

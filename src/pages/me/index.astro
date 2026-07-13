@@ -3,8 +3,8 @@ import MediaLayout from '~/layouts/MediaLayout.astro'
 import {
   getLastfmRecentTracks,
   getLastfmUserInfo,
-  getTraktStats,
   getMALAnimeList,
+  getTraktStats,
 } from '~/lib/media-api'
 
 const [recentTracks, lfUser, traktStats, watching] = await Promise.all([

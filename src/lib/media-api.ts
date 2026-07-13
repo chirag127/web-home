@@ -4,12 +4,12 @@
  */
 
 const TRAKT_CLIENT_ID = import.meta.env.TRAKT_CLIENT_ID ?? ''
-const TRAKT_USERNAME  = import.meta.env.TRAKT_USERNAME  ?? 'chirag127'
-const MAL_CLIENT_ID   = import.meta.env.MAL_CLIENT_ID   ?? ''
-const MAL_USERNAME    = import.meta.env.MAL_USERNAME     ?? 'chirag127'
-const LASTFM_API_KEY  = import.meta.env.LASTFM_API_KEY  ?? ''
+const TRAKT_USERNAME = import.meta.env.TRAKT_USERNAME ?? 'chirag127'
+const MAL_CLIENT_ID = import.meta.env.MAL_CLIENT_ID ?? ''
+const MAL_USERNAME = import.meta.env.MAL_USERNAME ?? 'chirag127'
+const LASTFM_API_KEY = import.meta.env.LASTFM_API_KEY ?? ''
 const LASTFM_USERNAME = import.meta.env.LASTFM_USERNAME ?? 'chirag127'
-const GOODREADS_ID    = import.meta.env.GOODREADS_USER_ID ?? ''
+const GOODREADS_ID = import.meta.env.GOODREADS_USER_ID ?? ''
 
 // ---- types ----------------------------------------------------------------
 
@@ -17,7 +17,7 @@ export interface TraktItem {
   type: 'movie' | 'episode'
   watched_at: string
   movie?: { title: string; year: number; ids: { tmdb: number; imdb: string } }
-  show?:  { title: string; year: number; ids: { tmdb: number } }
+  show?: { title: string; year: number; ids: { tmdb: number } }
   episode?: { season: number; number: number; title: string }
 }
 
@@ -44,9 +44,9 @@ export interface MALAnime {
 export interface LastfmTrack {
   name: string
   artist: { '#text': string }
-  album:  { '#text': string }
-  image:  Array<{ '#text': string; size: string }>
-  date?:  { '#text': string; uts: string }
+  album: { '#text': string }
+  image: Array<{ '#text': string; size: string }>
+  date?: { '#text': string; uts: string }
   '@attr'?: { nowplaying?: string }
 }
 
@@ -79,7 +79,9 @@ async function traktFetch<T>(path: string): Promise<T[]> {
     })
     if (!r.ok) return []
     return r.json()
-  } catch { return [] }
+  } catch {
+    return []
+  }
 }
 
 export async function getTraktHistory(limit = 30): Promise<TraktItem[]> {
@@ -107,7 +109,9 @@ export async function getTraktStats(): Promise<Record<string, unknown>> {
     })
     if (!r.ok) return {}
     return r.json()
-  } catch { return {} }
+  } catch {
+    return {}
+  }
 }
 
 // ---- MAL ------------------------------------------------------------------
@@ -121,18 +125,20 @@ async function malFetch<T>(path: string): Promise<T[]> {
     if (!r.ok) return []
     const data = await r.json()
     return data.data ?? []
-  } catch { return [] }
+  } catch {
+    return []
+  }
 }
 
 export async function getMALAnimeList(status = 'watching', limit = 20): Promise<MALAnime[]> {
   return malFetch(
-    `/users/${MAL_USERNAME}/animelist?fields=list_status,main_picture,mean,num_episodes&status=${status}&limit=${limit}&sort=list_updated_at`
+    `/users/${MAL_USERNAME}/animelist?fields=list_status,main_picture,mean,num_episodes&status=${status}&limit=${limit}&sort=list_updated_at`,
   )
 }
 
 export async function getMALMangaList(status = 'reading', limit = 20): Promise<MALAnime[]> {
   return malFetch(
-    `/users/${MAL_USERNAME}/mangalist?fields=list_status,main_picture,mean&status=${status}&limit=${limit}&sort=list_updated_at`
+    `/users/${MAL_USERNAME}/mangalist?fields=list_status,main_picture,mean&status=${status}&limit=${limit}&sort=list_updated_at`,
   )
 }
 
@@ -144,26 +150,31 @@ async function lastfmFetch<T>(method: string, extra = ''): Promise<T> {
     const r = await fetch(url)
     if (!r.ok) return {} as T
     return r.json()
-  } catch { return {} as T }
+  } catch {
+    return {} as T
+  }
 }
 
 export async function getLastfmRecentTracks(limit = 10): Promise<LastfmTrack[]> {
   const d = await lastfmFetch<{ recenttracks?: { track: LastfmTrack[] } }>(
-    'user.getrecenttracks', `&limit=${limit}`
+    'user.getrecenttracks',
+    `&limit=${limit}`,
   )
   return d.recenttracks?.track ?? []
 }
 
 export async function getLastfmTopArtists(period = '1month', limit = 12): Promise<LastfmArtist[]> {
   const d = await lastfmFetch<{ topartists?: { artist: LastfmArtist[] } }>(
-    'user.gettopartists', `&period=${period}&limit=${limit}`
+    'user.gettopartists',
+    `&period=${period}&limit=${limit}`,
   )
   return d.topartists?.artist ?? []
 }
 
 export async function getLastfmTopTracks(period = '1month', limit = 12): Promise<LastfmTrack[]> {
   const d = await lastfmFetch<{ toptracks?: { track: LastfmTrack[] } }>(
-    'user.gettoptracks', `&period=${period}&limit=${limit}`
+    'user.gettoptracks',
+    `&period=${period}&limit=${limit}`,
   )
   return d.toptracks?.track ?? []
 }
@@ -186,15 +197,17 @@ export async function getGoodreadsShelf(shelf = 'currently-reading'): Promise<Go
     const books: GoodreadsBook[] = []
     const items = xml.match(/<review>[\s\S]*?<\/review>/g) ?? []
     for (const item of items.slice(0, 10)) {
-      const title  = item.match(/<title><!\[CDATA\[(.*?)\]\]><\/title>/)?.[1] ?? ''
+      const title = item.match(/<title><!\[CDATA\[(.*?)\]\]><\/title>/)?.[1] ?? ''
       const author = item.match(/<name><!\[CDATA\[(.*?)\]\]><\/name>/)?.[1] ?? ''
-      const cover  = item.match(/<image_url>(.*?)<\/image_url>/)?.[1] ?? ''
-      const link   = item.match(/<link><!\[CDATA\[(.*?)\]\]><\/link>/)?.[1] ?? ''
+      const cover = item.match(/<image_url>(.*?)<\/image_url>/)?.[1] ?? ''
+      const link = item.match(/<link><!\[CDATA\[(.*?)\]\]><\/link>/)?.[1] ?? ''
       const rating = item.match(/<rating>(\d)<\/rating>/)?.[1]
       if (title) books.push({ title, author, cover, shelf, rating, link })
     }
     return books
-  } catch { return [] }
+  } catch {
+    return []
+  }
 }
 
 // ---- Combined activity feed -----------------------------------------------
@@ -209,23 +222,22 @@ export interface ActivityItem {
 }
 
 export async function getCombinedActivity(limit = 20): Promise<ActivityItem[]> {
-  const [trakt, tracks] = await Promise.all([
-    getTraktHistory(10),
-    getLastfmRecentTracks(10),
-  ])
+  const [trakt, tracks] = await Promise.all([getTraktHistory(10), getLastfmRecentTracks(10)])
 
   const items: ActivityItem[] = []
 
   for (const t of trakt.slice(0, 10)) {
     if (t.movie) {
       items.push({
-        type: 'watch', title: t.movie.title,
+        type: 'watch',
+        title: t.movie.title,
         subtitle: `Movie · ${t.movie.year}`,
         timestamp: t.watched_at,
       })
     } else if (t.show && t.episode) {
       items.push({
-        type: 'watch', title: t.show.title,
+        type: 'watch',
+        title: t.show.title,
         subtitle: `S${t.episode.season}E${t.episode.number} · ${t.episode.title}`,
         timestamp: t.watched_at,
       })
@@ -235,10 +247,13 @@ export async function getCombinedActivity(limit = 20): Promise<ActivityItem[]> {
   for (const t of tracks.slice(0, 10)) {
     if (t.name) {
       items.push({
-        type: 'listen', title: t.name,
+        type: 'listen',
+        title: t.name,
         subtitle: t.artist['#text'],
         image: t.image?.find((i) => i.size === 'medium')?.['#text'],
-        timestamp: t.date?.uts ? new Date(+t.date.uts * 1000).toISOString() : new Date().toISOString(),
+        timestamp: t.date?.uts
+          ? new Date(+t.date.uts * 1000).toISOString()
+          : new Date().toISOString(),
       })
     }
   }

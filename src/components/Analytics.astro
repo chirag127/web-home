@@ -1,18 +1,22 @@
 ---
 interface Props {
-  cf?: string           // Cloudflare Web Analytics token (free, no card, no cookies)
-  clarity?: string      // Microsoft Clarity project ID (free, heatmaps + recordings)
-  posthog?: string      // PostHog API key (free: 1M events/mo)
-  posthogHost?: string  // PostHog host (default: us.i.posthog.com)
-  ga?: string           // Google Analytics 4 measurement ID (G-XXXXXXXXXX, free)
-  sentry?: string       // Sentry DSN (free for OSS via sentry.io/for/open-source/)
+  cf?: string // Cloudflare Web Analytics token (free, no card, no cookies)
+  clarity?: string // Microsoft Clarity project ID (free, heatmaps + recordings)
+  posthog?: string // PostHog API key (free: 1M events/mo)
+  posthogHost?: string // PostHog host (default: us.i.posthog.com)
+  ga?: string // Google Analytics 4 measurement ID (G-XXXXXXXXXX, free)
+  sentry?: string // Sentry DSN (free for OSS via sentry.io/for/open-source/)
   sentryRelease?: string
-  plausible?: string    // Plausible domain (free for OSS via plausible.io/open-source/)
+  plausible?: string // Plausible domain (free for OSS via plausible.io/open-source/)
 }
 const {
-  cf, clarity,
-  posthog, posthogHost = 'https://us.i.posthog.com',
-  ga, sentry, sentryRelease,
+  cf,
+  clarity,
+  posthog,
+  posthogHost = 'https://us.i.posthog.com',
+  ga,
+  sentry,
+  sentryRelease,
   plausible,
 } = Astro.props
 ---

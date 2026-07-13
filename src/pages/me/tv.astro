@@ -2,10 +2,7 @@
 import MediaLayout from '~/layouts/MediaLayout.astro'
 import { getTraktShows, getTraktStats } from '~/lib/media-api'
 
-const [shows, stats] = await Promise.all([
-  getTraktShows(40),
-  getTraktStats(),
-])
+const [shows, stats] = await Promise.all([getTraktShows(40), getTraktStats()])
 
 const showsWatched = (stats as any)?.shows?.watched ?? 0
 const episodesWatched = (stats as any)?.episodes?.watched ?? 0
@@ -13,7 +10,7 @@ const minutesWatched = (stats as any)?.episodes?.minutes ?? 0
 const hoursWatched = Math.round(minutesWatched / 60)
 
 // Deduplicate by show title for the grid
-const unique = new Map<string, typeof shows[0]>()
+const unique = new Map<string, (typeof shows)[0]>()
 for (const s of shows) {
   if (s.show && !unique.has(s.show.title)) unique.set(s.show.title, s)
 }

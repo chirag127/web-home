@@ -1,6 +1,11 @@
 ---
 import MediaLayout from '~/layouts/MediaLayout.astro'
-import { getLastfmRecentTracks, getLastfmTopArtists, getLastfmTopTracks, getLastfmUserInfo } from '~/lib/media-api'
+import {
+  getLastfmRecentTracks,
+  getLastfmTopArtists,
+  getLastfmTopTracks,
+  getLastfmUserInfo,
+} from '~/lib/media-api'
 
 const [recent, topArtists, topTracks, userInfo] = await Promise.all([
   getLastfmRecentTracks(20),
